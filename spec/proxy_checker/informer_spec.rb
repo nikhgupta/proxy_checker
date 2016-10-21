@@ -1,5 +1,6 @@
 describe ProxyChecker::Informer do
   subject{ described_class.new("123.123.123.123", "12345") }
+
   it "stores the proxy IP address in an instance variable" do
     expect(subject.port).to eq 12345
     expect(subject.ip).to eq "123.123.123.123"

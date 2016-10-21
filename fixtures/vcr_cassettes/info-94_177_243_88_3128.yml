@@ -2,44 +2,6 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.ipify.org/?format=text
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
-        like Gecko) Chrome/53.0.2785.143 Safari/537.36
-      Content-Type:
-      - text/plain
-      Connection:
-      - close
-      Host:
-      - api.ipify.org
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - Cowboy
-      Connection:
-      - close
-      Content-Type:
-      - text/plain
-      Date:
-      - Thu, 20 Oct 2016 16:00:19 GMT
-      Content-Length:
-      - '14'
-      Via:
-      - 1.1 vegur
-    body:
-      encoding: ASCII-8BIT
-      string: 117.220.48.196
-    http_version: 
-  recorded_at: Thu, 20 Oct 2016 16:00:18 GMT
-- request:
-    method: get
     uri: http://ip-api.com/json/123.123.123.123
     body:
       encoding: US-ASCII
@@ -64,7 +26,7 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Thu, 20 Oct 2016 16:00:20 GMT
+      - Fri, 21 Oct 2016 23:20:26 GMT
       Content-Length:
       - '312'
       Connection:
@@ -74,5 +36,5 @@ http_interactions:
       string: '{"as":"AS4808 China Unicom Beijing Province Network","city":"Beijing","country":"China","countryCode":"CN","isp":"China
         Unicom Beijing","lat":39.9289,"lon":116.3883,"org":"China Unicom Beijing","query":"123.123.123.123","region":"11","regionName":"Beijing","status":"success","timezone":"Asia/Shanghai","zip":""}'
     http_version: 
-  recorded_at: Thu, 20 Oct 2016 16:00:19 GMT
+  recorded_at: Fri, 21 Oct 2016 23:20:26 GMT
 recorded_with: VCR 3.0.3

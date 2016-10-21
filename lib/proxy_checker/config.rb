@@ -2,7 +2,7 @@ module ProxyChecker
   class Config
     include ProxyChecker::Utility
 
-    attr_accessor :timeout, :info_url, :read_timeout, :connect_timeout,
+    attr_accessor :info_url, :read_timeout, :connect_timeout,
       :current_ip, :ssl_context, :log_error, :judge_urls, :current_ip_url,
       :websites, :http_block, :https_block, :post_block, :keep_failed_attempts
 
@@ -13,8 +13,6 @@ module ProxyChecker
 
       @read_timeout = 10
       @connect_timeout = 5
-      @current_ip = ENV['CURRENT_IP'] || fetch_current_ip
-      @timeout = { read: @read_timeout, connect: @connect_timeout, write: @read_timeout }
 
       @keep_failed_attempts = false
 
@@ -42,6 +40,14 @@ module ProxyChecker
         facebook:  "http://www.facebook.com/search/top/?q=%{s}",
         pinterest: "http://www.pinterest.com/search/?q=%{s}",
       }
+    end
+
+    def timeout
+      { read_timeout: @read_timeout, connect_timeout: @connect_timeout, write_timeout: @read_timeout }
+    end
+
+    def current_ip
+      @current_ip ||= ENV['CURRENT_IP'] || fetch_current_ip
     end
 
     def fetch_current_ip

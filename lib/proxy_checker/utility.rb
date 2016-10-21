@@ -4,6 +4,10 @@ module ProxyChecker
       ProxyChecker.config
     end
 
+    def info_url_for(ip, port)
+      config.info_url % { ip: ip, port: port }
+    end
+
     def agent(timeout = {})
       return @agent if @agent
       uagent  = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"
@@ -30,14 +34,14 @@ module ProxyChecker
         message: response.reason,
         body: (response.parse rescue response.to_s),
         charset: response.charset,
-        cookies: response.cookies.to_h,
+        cookies: Hash[response.cookies.map{|v| v.to_s.split("=")}],
         content_type: response.mime_type,
         content_length: response.content_length,
         headers: response.headers.to_h,
         proxy_headers: response.proxy_headers.to_h
       )
     rescue HTTP::Error, OpenSSL::SSL::SSLError => e
-      config.log_error.call(e, uri, options, response)
+      config.log_error.call(e, uri, options, response) if config.log_error.respond_to?(:call)
       return OpenStruct.new(uri: uri, error: e.class, message: e.message)
     end
 

@@ -6,14 +6,14 @@ module ProxyChecker
       @ip, @port = ip, port
     end
 
-    def fetch
+    def fetch(*protocols)
       props = {
-        http: { ssl: false },
+        http:  { ssl: false },
         https: { ssl: true },
-        post: { method: :post, body: "text=test" }
+        post:  { method: :post, body: "text=test" }
       }
-      props = Hash[props.map{|key, options| [key, supports_protocol?(key, options)]}]
-      binding.pry
+      props = protocols.empty? ? props : props.select{|k,v| protocols.include?(k)}
+      Hash[props.map{|key, options| [key, supports_protocol?(key, options)]}]
     end
 
     private
@@ -33,7 +33,7 @@ module ProxyChecker
       uri.scheme   = options.delete(:ssl) || (@https && @https.success) ? "https" : "http"
       block        = config.send(options.delete(:block) || "#{protocol}_block")
       data         = fetch_url_with_timestamp uri.to_s, options
-      data.success = block.call protocol, uri, data.response, data.timestamp
+      data.success = block.call protocol, uri, data.response, data.timestamp if block.respond_to?(:call)
       instance_variable_set "@#{protocol}", data
       data
     end

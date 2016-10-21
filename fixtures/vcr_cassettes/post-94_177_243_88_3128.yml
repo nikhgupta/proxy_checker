@@ -1,0 +1,70 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://www.rx2.eu/ivy/azenv.php
+    body:
+      encoding: UTF-8
+      string: text=test
+    headers:
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/53.0.2785.143 Safari/537.36
+      Content-Type:
+      - text/plain
+      Connection:
+      - close
+      Host:
+      - www.rx2.eu
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 21 Oct 2016 23:20:19 GMT
+      Content-Type:
+      - text/html
+      Content-Length:
+      - '760'
+      Connection:
+      - close
+      X-Powered-By:
+      - PleskLin
+      Vary:
+      - User-Agent,Accept-Encoding
+      Cache-Control:
+      - private, no-cache, no-store, proxy-revalidate, no-transform
+      Pragma:
+      - no-cache
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+        <head>
+        <title>AZ Environment variables 1.04</title>
+        </head>
+        <body>
+        <pre>
+        HTTP_HOST = www.rx2.eu
+        HTTP_X_REAL_IP = 117.203.19.47
+        HTTP_X_FORWARDED_FOR = 117.203.19.47
+        HTTP_X_ACCEL_INTERNAL = /internal-nginx-static-location
+        HTTP_CONNECTION = close
+        HTTP_USER_AGENT = Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36
+        REMOTE_ADDR = 117.203.19.47
+        REMOTE_PORT = 46606
+        REQUEST_METHOD = POST
+        REQUEST_URI = /ivy/azenv.php
+        REQUEST_TIME_FLOAT = 1477092019.606
+        REQUEST_TIME = 1477092019
+        </pre>
+        </body>
+        </html>
+    http_version: 
+  recorded_at: Fri, 21 Oct 2016 23:20:25 GMT
+recorded_with: VCR 3.0.3

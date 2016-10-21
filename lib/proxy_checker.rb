@@ -15,8 +15,8 @@ module ProxyChecker
       @config ||= Config.new
     end
 
-    def configure
-      yield(config) if block_given?
+    def configure(&block)
+      block.arity == 1 ? yield(config) : yield if block_given?
       config.current_ip ||= config.fetch_current_ip
     end
   end

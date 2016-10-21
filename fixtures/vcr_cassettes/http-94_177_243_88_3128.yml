@@ -1,0 +1,116 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.rx2.eu/ivy/azenv.php
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/53.0.2785.143 Safari/537.36
+      Content-Type:
+      - text/plain
+      Connection:
+      - close
+      Host:
+      - www.rx2.eu
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Fri, 21 Oct 2016 23:20:15 GMT
+      Content-Type:
+      - text/html
+      Content-Length:
+      - '759'
+      Connection:
+      - close
+      X-Powered-By:
+      - PleskLin
+      Vary:
+      - User-Agent,Accept-Encoding
+      Cache-Control:
+      - private, no-cache, no-store, proxy-revalidate, no-transform
+      Pragma:
+      - no-cache
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+        <head>
+        <title>AZ Environment variables 1.04</title>
+        </head>
+        <body>
+        <pre>
+        HTTP_HOST = www.rx2.eu
+        HTTP_X_REAL_IP = 117.203.19.47
+        HTTP_X_FORWARDED_FOR = 117.203.19.47
+        HTTP_X_ACCEL_INTERNAL = /internal-nginx-static-location
+        HTTP_CONNECTION = close
+        HTTP_USER_AGENT = Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36
+        REMOTE_ADDR = 117.203.19.47
+        REMOTE_PORT = 46400
+        REQUEST_METHOD = GET
+        REQUEST_URI = /ivy/azenv.php
+        REQUEST_TIME_FLOAT = 1477092015.304
+        REQUEST_TIME = 1477092015
+        </pre>
+        </body>
+        </html>
+    http_version: 
+  recorded_at: Fri, 21 Oct 2016 23:20:21 GMT
+- request:
+    method: get
+    uri: http://luisaranguren.com/azenv.php
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/53.0.2785.143 Safari/537.36
+      Content-Type:
+      - text/plain
+      Connection:
+      - close
+      Host:
+      - luisaranguren.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 21 Oct 2016 23:20:04 GMT
+      Server:
+      - Apache
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '670'
+      Connection:
+      - close
+      Content-Type:
+      - text/html; charset=UTF-8
+    body:
+      encoding: UTF-8
+      string: "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"\r\n
+        \  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xhtml\"
+        xml:lang=\"en\" lang=\"en\">\r\n<head>\r\n<title>AZ Environment variables
+        1.04</title>\r\n</head>\r\n<body>\r\n<pre>\r\nHTTP_USER_AGENT = Mozilla/5.0
+        (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko)
+        Chrome/53.0.2785.143 Safari/537.36\nHTTP_CONNECTION = close\nHTTP_HOST = luisaranguren.com\nREMOTE_ADDR
+        = 117.203.19.47\nREQUEST_SCHEME = http\nREMOTE_PORT = 59729\nREQUEST_METHOD
+        = GET\nREQUEST_URI = /azenv.php\nREQUEST_TIME_FLOAT = 1477092004.092\nREQUEST_TIME
+        = 1477092004\n</pre>\r\n</body>\r\n</html>"
+    http_version: 
+  recorded_at: Fri, 21 Oct 2016 23:20:21 GMT
+recorded_with: VCR 3.0.3
