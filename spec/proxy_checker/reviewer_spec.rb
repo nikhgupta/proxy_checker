@@ -55,4 +55,11 @@ describe ProxyChecker::Reviewer do
     expect(reviewer).to receive(:supports_url_for_protocol?).with(:https, any_args).twice.and_call_original
     fetch :https, :post
   end
+
+  it "sets up instance variables for the protocols/capabilities it verifies as the first successful result" do
+    data = fetch :http, :https, :post
+    expect(reviewer.instance_variable_get("@http")).to  eq data[:http][0]
+    expect(reviewer.instance_variable_get("@post")).to  eq data[:post][1]
+    expect(reviewer.instance_variable_get("@https")).to eq data[:https][1]
+  end
 end
