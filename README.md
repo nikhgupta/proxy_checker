@@ -101,6 +101,12 @@ end
 
 ### Website blocks
 
+A proxy can or cannot access a given website due to different reasons.
+These blocks can be used to configure which websites are being tested,
+and how the validation is done for the same.
+
+**This functionality is, currently, pending and non-existent.**
+
 ```ruby
 ProxyChecker.configure do |config|
   config.websites = {
