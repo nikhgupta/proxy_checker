@@ -21,8 +21,10 @@ module ProxyChecker
     end
   end
 
-  def self.check(ip, port, info: true)
-    data = ProxyChecker::Reviewer.new(ip, port).fetch
+  def self.check(ip, port, options = {})
+    info = options.fetch(:info, true)
+    protocols = [ options.fetch(:protocols, []) ].flatten
+    data = ProxyChecker::Reviewer.new(ip, port).fetch(*protocols)
     data.merge!(info: ProxyChecker::Informer.new(ip, port).fetch) if info
     data
   end

@@ -1,0 +1,66 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://rawgit.com/nikhgupta/3a8703f8659a1739647c3c480a95ed87/raw/6ada5385033609f843155e57949c244c9c6188d8/sample.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/53.0.2785.143 Safari/537.36
+      Content-Type:
+      - text/plain
+      Connection:
+      - close
+      Host:
+      - rawgit.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 22 Oct 2016 17:17:47 GMT
+      Content-Type:
+      - application/json;charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      Set-Cookie:
+      - __cfduid=d7c8b11fde64a311dac027e350e8e40bd1477156666; expires=Sun, 22-Oct-17
+        17:17:46 GMT; path=/; domain=.rawgit.com; HttpOnly
+      X-Content-Type-Options:
+      - nosniff
+      X-Robots-Tag:
+      - none
+      Access-Control-Allow-Origin:
+      - "*"
+      Etag:
+      - W/"2bea5fd966c4cbccdecb65691954bd3ca2f58173"
+      Cache-Control:
+      - max-age=300
+      Vary:
+      - Accept-Encoding
+      Rawgit-Cache-Status:
+      - EXPIRED
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 2f5e9acc38e41798-SIN
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "note": {
+            "to": "Tove",
+            "from": "Jani",
+            "heading": "Reminder",
+            "body": "Don't forget me this weekend!"
+          }
+        }
+    http_version: 
+  recorded_at: Sat, 22 Oct 2016 17:17:47 GMT
+recorded_with: VCR 3.0.3

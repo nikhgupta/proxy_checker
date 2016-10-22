@@ -38,10 +38,15 @@ module ProxyChecker
         content_type: response.mime_type,
         content_length: response.content_length,
         headers: response.headers.to_h,
-        proxy_headers: response.proxy_headers.to_h
+        proxy_headers: response.proxy_headers.to_h,
+        streaming: response.headers["Transfer-Encoding"] == "chunked"
       )
     rescue HTTP::Error, OpenSSL::SSL::SSLError => e
-      config.log_error.call(e, uri, options, response) if config.log_error.respond_to?(:call)
+      if config.log_error.respond_to?(:call) && config.log_error.arity == 1
+        config.log_error.call(e)
+      elsif config.log_error.respond_to?(:call)
+        config.log_error.call(e, uri, options, response)
+      end
       return OpenStruct.new(uri: uri, error: e.class, message: e.message)
     end
 

@@ -19,7 +19,7 @@ module ProxyChecker
       @ssl_context = OpenSSL::SSL::SSLContext.new
       @ssl_context.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
-      @log_error = -> (e, *args) { puts "\e[31mEncountered ERROR: #{e.class} #{e}\e[0m" }
+      @log_error = -> (e) { puts "\e[31mEncountered ERROR: #{e.class} #{e}\e[0m" }
 
       @http_block = -> (key, uri, response, time){
         response.code == 200 && !!response.body.match(/request_method\s+=\s+get/i)

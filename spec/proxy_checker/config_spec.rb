@@ -78,9 +78,15 @@ describe ProxyChecker::Config do
   end
 
   it "allows setting up callback when errors occur when making HTTP/S connections" do
-    set_config :log_error, -> (e, *args){ puts e }
+    set_config :log_error, -> (e){ puts e }
     allow_any_instance_of(HTTP::Client).to receive(:request).and_raise HTTP::Error, "Some Error Occurred"
     expect{ verify_protocol :http }.to output(/Some Error Occurred/).to_stdout
+  end
+
+  it "passes error, url, options and response object to the log_error callback if needed" do
+    set_config :log_error, -> (e, uri, options, response) { puts "#{e.class}: #{uri}: #{response} #{options}" }
+    allow_any_instance_of(HTTP::Client).to receive(:request).and_raise HTTP::Error, "Some Error Occurred"
+    expect{ verify_protocol :http }.to output(/HTTP::Error: .*?rx2\.eu.*?:  \{\}/).to_stdout
   end
 
   it "allows setting up callbacks for verifying which protocol was successful" do
