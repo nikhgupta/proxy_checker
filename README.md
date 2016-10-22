@@ -20,11 +20,27 @@ Or install it yourself as:
 
 ## Usage
 
+```ruby
+ProxyChecker.check("123.123.123.123", "12345")
+# => get information about the IP address "123.123.123.123".
+# => check if the proxy supports HTTP, HTTPS, and POST capabilities.
+
+ProxyChecker.check("123.123.123.123", "12345", info: false)
+# => does not fetch information about the IP address.
+
+ProxyChecker.check("123.123.123.123", "12345", protocols: [:http, :post])
+# => check if proxy supports HTTP, and POST capabilities only.
+# => fetch information about the IP address.
+```
+
 You can configure various options for the gem in `.configure` block.
 
 ### URLs to various services
 
-```
+`%{ip}` is replaced with the Proxy IP address, and `%{port}` with the
+port of the proxy.
+
+```ruby
 ProxyChecker.configure do |config|
   # URL to check the information about the Proxy IP
   config.info_url = "http://ip-api.com/json/%{ip}"
@@ -45,7 +61,7 @@ end
 
 ### Timeouts, SSL and other options
 
-```
+```ruby
 ProxyChecker.configure do |config|
   config.read_timeout = 10            # timeout for HTTP read
   config.connect_timeout = 5          # timeout for HTTP connect
@@ -64,7 +80,7 @@ end
 
 ### Logging Errors
 
-```
+```ruby
 ProxyChecker.configure do |config|
   config.log_error = -> (e) { puts "\e[31mEncountered ERROR: #{e.class} #{e}\e[0m" }
 
@@ -81,7 +97,7 @@ the request was made, `response` is the response object received from
 the judge, and `time` is the time taken (in ms) for the request to
 complete.
 
-```
+```ruby
 ProxyChecker.configure do |config|
   config.http_block = -> (key, uri, response, time){
     response.code == 200 && !!response.body.match(/request_method\s+=\s+get/i)
@@ -99,7 +115,7 @@ end
 
 ### Website blocks
 
-```
+```ruby
 ProxyChecker.configure do |config|
   config.websites = {
     google:    "http://www.google.com/search?q=%{s}",
@@ -110,6 +126,17 @@ ProxyChecker.configure do |config|
   }
 
 end
+```
+
+You can read config values for the gem:
+
+```ruby
+ProxyChecker.config.info_url
+# => "http://ip-api.com/json/%{ip}"
+ProxyChecker.config.current_ip
+# => "123.123.123.123"
+ProxyChecker.config.timeout
+# => { read_timeout: 10, connect_timeout: 5, write_timeout: 10 }
 ```
 
 ## Development
