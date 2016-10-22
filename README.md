@@ -33,6 +33,17 @@ ProxyChecker.check("123.123.123.123", "12345", protocols: [:http, :post])
 # => fetch information about the IP address.
 ```
 
+You can read configuration values for the gem:
+
+```ruby
+ProxyChecker.config.info_url
+# => "http://ip-api.com/json/%{ip}"
+ProxyChecker.config.current_ip
+# => "123.123.123.123"
+ProxyChecker.config.timeout
+# => { read_timeout: 10, connect_timeout: 5, write_timeout: 10 }
+```
+
 You can configure various options for the gem in `.configure` block.
 
 ### URLs to various services
@@ -59,36 +70,6 @@ ProxyChecker.configure do |config|
 end
 ```
 
-### Timeouts, SSL and other options
-
-```ruby
-ProxyChecker.configure do |config|
-  config.read_timeout = 10            # timeout for HTTP read
-  config.connect_timeout = 5          # timeout for HTTP connect
-
-  # Whether to keep HTTP requests that failed validation (based on
-  # protocol blocks) in the returned results.
-  config.keep_failed_attempts = false
-
-  # SSL Context to use when making HTTPS requests.
-  # By default, this is set to not verify SSL certificates.
-  ssl_context = OpenSSL::SSL::SSLContext.new
-  ssl_context.verify_mode = OpenSSL::SSL::VERIFY_NONE
-  config.ssl_context = ssl_context
-end
-```
-
-### Logging Errors
-
-```ruby
-ProxyChecker.configure do |config|
-  config.log_error = -> (e) { puts "\e[31mEncountered ERROR: #{e.class} #{e}\e[0m" }
-
-  # This block can also accept 4 params, as below:
-  config.log_error = -> (error, uri, response, time_taken) { ... some code ... }
-end
-```
-
 ### Protocol Blocks
 
 In the following example, `key` refers to the protocol/capability that
@@ -96,6 +77,11 @@ is being validated, `uri` refers to the URL of the server/judge where
 the request was made, `response` is the response object received from
 the judge, and `time` is the time taken (in ms) for the request to
 complete.
+
+The block should validate the responses returned by the Proxy Judges,
+and return `true` when the validation passes. If the block returns
+`false`, next url from the `ProxyChecker.config.judge_urls` is tried to
+validate the proxy.
 
 ```ruby
 ProxyChecker.configure do |config|
@@ -124,19 +110,37 @@ ProxyChecker.configure do |config|
     facebook:  "http://www.facebook.com/search/top/?q=%{s}",
     pinterest: "http://www.pinterest.com/search/?q=%{s}",
   }
-
 end
 ```
 
-You can read config values for the gem:
+### Logging Errors
 
 ```ruby
-ProxyChecker.config.info_url
-# => "http://ip-api.com/json/%{ip}"
-ProxyChecker.config.current_ip
-# => "123.123.123.123"
-ProxyChecker.config.timeout
-# => { read_timeout: 10, connect_timeout: 5, write_timeout: 10 }
+ProxyChecker.configure do |config|
+  config.log_error = -> (e) { puts "\e[31mEncountered ERROR: #{e.class} #{e}\e[0m" }
+
+  # This block can also accept 4 params, as below:
+  config.log_error = -> (error, uri, response, time_taken) { ... some code ... }
+end
+```
+
+### Timeouts, SSL and other options
+
+```ruby
+ProxyChecker.configure do |config|
+  config.read_timeout = 10            # timeout for HTTP read
+  config.connect_timeout = 5          # timeout for HTTP connect
+
+  # Whether to keep HTTP requests that failed validation (based on
+  # protocol blocks) in the returned results.
+  config.keep_failed_attempts = false
+
+  # SSL Context to use when making HTTPS requests.
+  # By default, this is set to not verify SSL certificates.
+  ssl_context = OpenSSL::SSL::SSLContext.new
+  ssl_context.verify_mode = OpenSSL::SSL::VERIFY_NONE
+  config.ssl_context = ssl_context
+end
 ```
 
 ## Development
