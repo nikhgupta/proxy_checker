@@ -2,6 +2,8 @@ module ProxyChecker
   class Reviewer
     include ProxyChecker::Utility
 
+    attr_accessor :http, :https, :post
+
     def initialize(ip, port)
       @ip, @port = ip, port
     end

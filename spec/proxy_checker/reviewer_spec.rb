@@ -57,9 +57,31 @@ describe ProxyChecker::Reviewer do
   end
 
   it "sets up instance variables for the protocols/capabilities it verifies as the first successful result" do
+    expect(reviewer.http).to  be_nil
+    expect(reviewer.post).to  be_nil
+    expect(reviewer.https).to be_nil
+
     data = fetch :http, :https, :post
+
+    expect(reviewer.http).to  eq data[:http][0]
+    expect(reviewer.post).to  eq data[:post][1]
+    expect(reviewer.https).to eq data[:https][1]
+
     expect(reviewer.instance_variable_get("@http")).to  eq data[:http][0]
     expect(reviewer.instance_variable_get("@post")).to  eq data[:post][1]
     expect(reviewer.instance_variable_get("@https")).to eq data[:https][1]
+  end
+
+  it "does not keep failed results by default" do
+    data = fetch :http
+    expect(data[:http].count).to be 1
+    expect(reviewer.http.success).to be_truthy
+  end
+
+  it "allows logging of failed results" do
+    ProxyChecker.config.keep_failed_attempts = true
+    data = fetch :https
+    expect(data[:https].count).to be 2
+    expect(reviewer.https.success).to be_truthy
   end
 end
