@@ -1,0 +1,76 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://ip-api.com/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/53.0.2785.143 Safari/537.36
+      Content-Type:
+      - text/plain
+      Connection:
+      - close
+      Host:
+      - ip-api.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 23 Oct 2016 05:36:48 GMT
+      Content-Length:
+      - '266'
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{"as":"AS9829 National Internet Backbone","city":"Jaipur","country":"India","countryCode":"IN","isp":"BSNL","lat":26.9167,"lon":75.8167,"org":"BSNL","query":"117.203.3.218","region":"RJ","regionName":"Rajasthan","status":"success","timezone":"Asia/Kolkata","zip":""}'
+    http_version: 
+  recorded_at: Sun, 23 Oct 2016 05:36:48 GMT
+- request:
+    method: get
+    uri: http://ip-api.com/json/94.177.243.88
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/53.0.2785.143 Safari/537.36
+      Content-Type:
+      - text/plain
+      Connection:
+      - close
+      Host:
+      - ip-api.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 23 Oct 2016 05:36:49 GMT
+      Content-Length:
+      - '276'
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{"as":"AS199653 ARUBAFR-AS","city":"Paris","country":"France","countryCode":"FR","isp":"Aruba
+        S.p.A.","lat":48.8667,"lon":2.3333,"org":"Aruba S.p.A.","query":"94.177.243.88","region":"J","regionName":"Île-de-France","status":"success","timezone":"Europe/Paris","zip":"75001"}'
+    http_version: 
+  recorded_at: Sun, 23 Oct 2016 05:36:49 GMT
+recorded_with: VCR 3.0.3

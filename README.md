@@ -51,6 +51,22 @@ You can configure various options for the gem in `.configure` block.
 `%{ip}` is replaced with the Proxy IP address, and `%{port}` with the
 port of the proxy.
 
+Note that, external services being used here should return key value pairs in either text or json format.
+
+```
+  # example text response
+  REQUEST_SCHEME = http
+  REQUEST_METHOD = GET
+  REQUEST_URI = /azenv.php
+
+  # example json response
+  { "REQUEST_SCHEME": "http", "REQUEST_METHOD": "GET", "REQUEST_URI": "/judge/headers.json" }
+```
+
+Also, since the `current_ip` method takes in `parse_current_ip` block
+for processing the response received by the `current_ip_url`, the return
+value from `parse_current_ip` should be an IP address.
+
 ```ruby
 ProxyChecker.configure do |config|
   # URL to check the information about the Proxy IP

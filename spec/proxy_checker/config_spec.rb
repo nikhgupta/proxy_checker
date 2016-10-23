@@ -67,9 +67,9 @@ describe ProxyChecker::Config do
 
   it "allows parsing of response received from external service when querying current IP" do
     VCR.use_cassette("current-ip-json") do
-      allow(ENV).to receive(:[]).and_return nil
-      reset_config current_ip_url: "http://ip-api.com/json",
-        parse_current_ip: -> (res){ res.parse['query'] if res.mime_type == "application/json" }
+      allow(ENV).to receive(:[]).with("CURRENT_IP").and_return nil
+      reset_config current_ip_url: "http://api.ipify.org/?format=text",
+        parse_current_ip: -> (res){ res.raw_body }
 
       expect(subject.current_ip).not_to be_nil
       expect(subject.current_ip).to eq "117.203.3.218"

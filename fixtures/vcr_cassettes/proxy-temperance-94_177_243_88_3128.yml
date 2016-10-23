@@ -1,0 +1,111 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://ip-api.com/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/53.0.2785.143 Safari/537.36
+      Content-Type:
+      - text/plain
+      Connection:
+      - close
+      Host:
+      - ip-api.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 23 Oct 2016 05:44:56 GMT
+      Content-Length:
+      - '266'
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{"as":"AS9829 National Internet Backbone","city":"Jaipur","country":"India","countryCode":"IN","isp":"BSNL","lat":26.9167,"lon":75.8167,"org":"BSNL","query":"117.203.3.218","region":"RJ","regionName":"Rajasthan","status":"success","timezone":"Asia/Kolkata","zip":""}'
+    http_version: 
+  recorded_at: Sun, 23 Oct 2016 05:44:56 GMT
+- request:
+    method: get
+    uri: https://gist.githubusercontent.com/nikhgupta/7a3588c8b881771868dab6e04dbbac71/raw/4fd767d8af480d124a94d9d40f8a8a61132ac627/sha512.txt
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/53.0.2785.143 Safari/537.36
+      Content-Type:
+      - text/plain
+      Connection:
+      - close
+      Host:
+      - gist.githubusercontent.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Security-Policy:
+      - default-src 'none'; style-src 'unsafe-inline'
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - deny
+      X-Xss-Protection:
+      - 1; mode=block
+      Etag:
+      - '"c82dad25bb6c96a804f4b07adffeb5b17f194414"'
+      Content-Type:
+      - text/plain; charset=utf-8
+      Cache-Control:
+      - max-age=300
+      X-Geo-Block-List:
+      - ''
+      X-Github-Request-Id:
+      - B91F111F:4D8C:7F129EC:580C4E60
+      Content-Length:
+      - '128'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Sun, 23 Oct 2016 05:45:05 GMT
+      Via:
+      - 1.1 varnish
+      Connection:
+      - close
+      X-Served-By:
+      - cache-fra1239-FRA
+      X-Cache:
+      - MISS
+      X-Cache-Hits:
+      - '0'
+      Vary:
+      - Authorization,Accept-Encoding
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Fastly-Request-Id:
+      - e5a60c1a2df42f25e95807b6211075ab4360b3bc
+      Expires:
+      - Sun, 23 Oct 2016 05:50:05 GMT
+      Source-Age:
+      - '0'
+    body:
+      encoding: UTF-8
+      string: ccabbcb61781a9ca2b7a3c85d0c61aeb139bd014789a165a35e17a00e4be40c5448f89a59e4554296a149832fbaf303a87a2d04a5fa1edb70d80f69b048c0d99
+    http_version: 
+  recorded_at: Sun, 23 Oct 2016 05:45:05 GMT
+recorded_with: VCR 3.0.3

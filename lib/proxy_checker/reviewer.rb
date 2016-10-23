@@ -33,9 +33,9 @@ module ProxyChecker
     def supports_url_for_protocol?(protocol, url, options = {})
       uri, options = URI.parse(url), options.dup
       uri.scheme   = options.delete(:ssl) || (@https && @https.success) ? "https" : "http"
-      block        = config.send(options.delete(:block) || "validate_#{protocol}")
+      block        = config.send(options.delete(:block) || "#{protocol}_block")
       data         = fetch_url_with_timestamp uri.to_s, options
-      data.success = block.call data.response, uri.to_s if block.respond_to?(:call)
+      data.success = block.call protocol, uri, data.response, data.timestamp if block.respond_to?(:call)
       instance_variable_set "@#{protocol}", data
       data
     end

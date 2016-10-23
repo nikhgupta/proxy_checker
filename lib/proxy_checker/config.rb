@@ -2,7 +2,7 @@ module ProxyChecker
   class Config
     include ProxyChecker::Utility
 
-    attr_accessor :info_url, :judge_urls, :current_ip_url,
+    attr_accessor :info_url, :judge_urls, :current_ip_url, :digest_url,
       :read_timeout, :connect_timeout, :ssl_context,
       :current_ip, :keep_failed_attempts,
       :log_error, :parse_current_ip, :websites,
@@ -11,7 +11,7 @@ module ProxyChecker
     def initialize
       @info_url   = "http://ip-api.com/json/%{ip}"
       @judge_urls = [ "http://www.rx2.eu/ivy/azenv.php", "http://luisaranguren.com/azenv.php" ]
-      @current_ip_url = "https://api.ipify.org/?format=text"
+      @current_ip_url = "http://ip-api.com/json"
 
       @read_timeout = 10
       @connect_timeout = 5
@@ -24,18 +24,20 @@ module ProxyChecker
       @log_error = -> (e) { puts "\e[31mEncountered ERROR: #{e.class} #{e}\e[0m" }
 
       @validate_http = -> (response, url){
-        response.code == 200 && !!response.body.match(/request_method\s+=\s+get/i)
+        response.code == 200 &&
+        response.body["REQUEST_METHOD"].to_s.downcase == "get"
       }
 
       @validate_https = -> (response, url){
-        response.code == 200 && !!response.body.match(/https\s+=\s+on.*request_method\s+=\s+get/mi)
+        response.code == 200 &&
+        response.body["HTTPS"].to_s.downcase == "on" &&
+        response.body["REQUEST_METHOD"].to_s.downcase == "get"
       }
 
       @validate_post = -> (response, url){
-        response.code == 200 && !!response.body.match(/request_method\s+=\s+post/i)
+        response.code == 200 &&
+        response.body["REQUEST_METHOD"].to_s.downcase == "post"
       }
-
-      @parse_current_ip = nil
 
       @websites = {
         google:    "http://www.google.com/search?q=%{s}",
@@ -45,7 +47,9 @@ module ProxyChecker
         pinterest: "http://www.pinterest.com/search/?q=%{s}",
       }
 
+      @parse_current_ip = -> (response) { response.body["query"] }
       @current_ip ||= ENV['CURRENT_IP'] || fetch_current_ip
+      @digest_url = "https://gist.githubusercontent.com/nikhgupta/7a3588c8b881771868dab6e04dbbac71/raw/4fd767d8af480d124a94d9d40f8a8a61132ac627/sha512.txt"
     end
 
     def timeout
@@ -58,8 +62,28 @@ module ProxyChecker
       end
 
       return ip.ip_address if ip
-      response = agent.get(@current_ip_url)
+      response = sanitize_response(agent.get(@current_ip_url))
       @parse_current_ip ? @parse_current_ip.call(response) : response.to_s
+    end
+
+    def sanitize_response(response)
+      body   = response.parse rescue nil
+      body ||= ProxyChecker::BodyParser.new(response).parsed
+
+      OpenStruct.new(
+        uri: response.uri,
+        code: response.code,
+        message: response.reason,
+        body: body,
+        raw_body: response.to_s,
+        charset: response.charset,
+        cookies: Hash[response.cookies.map{|v| v.to_s.split("=")}],
+        content_type: response.mime_type,
+        content_length: response.content_length,
+        headers: response.headers.to_h,
+        proxy_headers: response.proxy_headers.to_h,
+        streaming: response.headers["Transfer-Encoding"] == "chunked"
+      )
     end
   end
 end

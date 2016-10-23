@@ -5,6 +5,7 @@ $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 
 require 'vcr'
 require "proxy_checker"
+require 'webmock/rspec'
 require_relative "support.rb"
 
 TEST_PROXY_IP   = "94.177.243.88"
@@ -20,6 +21,8 @@ RSpec.configure do |config|
   config.before(:each) do
     ENV['CURRENT_IP'] = "CURRENT_IP"
     ProxyChecker.config = nil
+    ProxyChecker.config.log_error = nil
     ProxyChecker.config.keep_failed_attempts = true
+    WebMock.reset!
   end
 end
