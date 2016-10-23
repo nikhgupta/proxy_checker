@@ -85,15 +85,15 @@ validate the proxy.
 
 ```ruby
 ProxyChecker.configure do |config|
-  config.validate_http = -> (key, uri, response, time){
+  config.validate_http = -> (response, url){
     response.code == 200 && !!response.body.match(/request_method\s+=\s+get/i)
   }
 
-  config.validate_https = -> (key, uri, response, time){
+  config.validate_https = -> (response, url){
     response.code == 200 && !!response.body.match(/https\s+=\s+on.*request_method\s+=\s+get/mi)
   }
 
-  config.validate_post = -> (key, uri, response, time){
+  config.validate_post = -> (response, url){
     response.code == 200 && !!response.body.match(/request_method\s+=\s+post/i)
   }
 end
@@ -126,7 +126,7 @@ ProxyChecker.configure do |config|
   config.log_error = -> (e) { puts "\e[31mEncountered ERROR: #{e.class} #{e}\e[0m" }
 
   # This block can also accept 4 params, as below:
-  config.log_error = -> (error, uri, response, time_taken) { ... some code ... }
+  config.log_error = -> (error, url, request_params, response) { ... some code ... }
 end
 ```
 
