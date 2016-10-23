@@ -1,0 +1,167 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://ip-api.com/json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/53.0.2785.143 Safari/537.36
+      Content-Type:
+      - text/plain
+      Connection:
+      - close
+      Host:
+      - ip-api.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Sun, 23 Oct 2016 07:40:57 GMT
+      Content-Length:
+      - '266'
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{"as":"AS9829 National Internet Backbone","city":"Jaipur","country":"India","countryCode":"IN","isp":"BSNL","lat":26.9167,"lon":75.8167,"org":"BSNL","query":"117.203.3.218","region":"RJ","regionName":"Rajasthan","status":"success","timezone":"Asia/Kolkata","zip":""}'
+    http_version: 
+  recorded_at: Sun, 23 Oct 2016 07:40:57 GMT
+- request:
+    method: get
+    uri: http://www.rx2.eu/ivy/azenv.php
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/53.0.2785.143 Safari/537.36
+      Content-Type:
+      - text/plain
+      Connection:
+      - close
+      Host:
+      - www.rx2.eu
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 23 Oct 2016 07:41:01 GMT
+      Content-Type:
+      - text/html
+      Content-Length:
+      - '846'
+      X-Powered-By:
+      - PleskLin
+      Vary:
+      - User-Agent,Accept-Encoding
+      Cache-Control:
+      - private, no-cache, no-store, proxy-revalidate, no-transform
+      Pragma:
+      - no-cache
+      X-Cache:
+      - MISS from Gokhan
+      X-Cache-Lookup:
+      - MISS from Gokhan:3128
+      Via:
+      - 1.1 Gokhan (squid/3.3.8)
+      Connection:
+      - close
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+        <head>
+        <title>AZ Environment variables 1.04</title>
+        </head>
+        <body>
+        <pre>
+        HTTP_HOST = www.rx2.eu
+        HTTP_X_REAL_IP = 94.177.243.88
+        HTTP_X_FORWARDED_FOR = 117.203.3.218, 94.177.243.88
+        HTTP_X_ACCEL_INTERNAL = /internal-nginx-static-location
+        HTTP_CONNECTION = close
+        HTTP_USER_AGENT = Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36
+        HTTP_VIA = 1.1 Gokhan (squid/3.3.8)
+        HTTP_CACHE_CONTROL = max-age=259200
+        REMOTE_ADDR = 94.177.243.88
+        REMOTE_PORT = 46852
+        REQUEST_METHOD = GET
+        REQUEST_URI = /ivy/azenv.php
+        REQUEST_TIME_FLOAT = 1477208461.168
+        REQUEST_TIME = 1477208461
+        </pre>
+        </body>
+        </html>
+    http_version: 
+  recorded_at: Sun, 23 Oct 2016 07:41:06 GMT
+- request:
+    method: get
+    uri: http://luisaranguren.com/azenv.php
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/53.0.2785.143 Safari/537.36
+      Content-Type:
+      - text/plain
+      Connection:
+      - close
+      Host:
+      - luisaranguren.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 23 Oct 2016 07:40:52 GMT
+      Server:
+      - Apache
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '783'
+      Content-Type:
+      - text/html; charset=UTF-8
+      X-Cache:
+      - MISS from Gokhan
+      X-Cache-Lookup:
+      - MISS from Gokhan:3128
+      Via:
+      - 1.1 Gokhan (squid/3.3.8)
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"\r\n
+        \  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xhtml\"
+        xml:lang=\"en\" lang=\"en\">\r\n<head>\r\n<title>AZ Environment variables
+        1.04</title>\r\n</head>\r\n<body>\r\n<pre>\r\nHTTP_USER_AGENT = Mozilla/5.0
+        (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko)
+        Chrome/53.0.2785.143 Safari/537.36\nHTTP_HOST = luisaranguren.com\nHTTP_VIA
+        = 1.1 Gokhan (squid/3.3.8)\nHTTP_X_FORWARDED_FOR = 117.203.3.218\nHTTP_CACHE_CONTROL
+        = max-age=259200\nHTTP_CONNECTION = keep-alive\nREMOTE_ADDR = 94.177.243.88\nREQUEST_SCHEME
+        = http\nREMOTE_PORT = 53137\nREQUEST_METHOD = GET\nREQUEST_URI = /azenv.php\nREQUEST_TIME_FLOAT
+        = 1477208452.09\nREQUEST_TIME = 1477208452\n</pre>\r\n</body>\r\n</html>"
+    http_version: 
+  recorded_at: Sun, 23 Oct 2016 07:41:10 GMT
+recorded_with: VCR 3.0.3

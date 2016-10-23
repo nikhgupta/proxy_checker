@@ -99,4 +99,43 @@ describe ProxyChecker::Base do
     data = run("proxy-temperance"){ fetch_information :temperance }
     expect(@info['temperance']).to eq "body" => true, "content_type" => true, "headers" => true
   end
+
+  it "verifies if the proxy supports `http` protocol" do
+    allow_any_instance_of(ProxyChecker::Config).to receive(:validate_http).and_return -> (*a){ false }
+    data = run("proxy-http"){ check_protocols :http }
+    expect(@protocols['http'].count).to be 2
+    expect(@protocols['http'][0].success).to be_falsey
+    expect(@protocols['http'][1].success).to be_falsey
+
+    allow_any_instance_of(ProxyChecker::Config).to receive(:validate_http).and_return -> (*a){ true }
+    data = run("proxy-http"){ check_protocols :http }
+    expect(@protocols['http'].count).to be 1
+    expect(@protocols['http'][0].success).to be_truthy
+  end
+
+  it "verifies if the proxy supports `https` protocol" do
+    allow_any_instance_of(ProxyChecker::Config).to receive(:validate_https).and_return -> (*a){ false }
+    data = run("proxy-https"){ check_protocols :https }
+    expect(@protocols['https'].count).to be 2
+    expect(@protocols['https'][0].success).to be_falsey
+    expect(@protocols['https'][1].success).to be_falsey
+
+    allow_any_instance_of(ProxyChecker::Config).to receive(:validate_https).and_return -> (*a){ true }
+    data = run("proxy-https"){ check_protocols :https }
+    expect(@protocols['https'].count).to be 1
+    expect(@protocols['https'][0].success).to be_truthy
+  end
+
+  it "verifies if the proxy supports `post` capability" do
+    allow_any_instance_of(ProxyChecker::Config).to receive(:validate_post).and_return -> (*a){ false }
+    data = run("proxy-post"){ check_capabilities :post }
+    expect(@capabilities['post'].count).to be 2
+    expect(@capabilities['post'][0].success).to be_falsey
+    expect(@capabilities['post'][1].success).to be_falsey
+
+    allow_any_instance_of(ProxyChecker::Config).to receive(:validate_post).and_return -> (*a){ true }
+    data = run("proxy-post"){ check_capabilities :post }
+    expect(@capabilities['post'].count).to be 1
+    expect(@capabilities['post'][0].success).to be_truthy
+  end
 end

@@ -93,7 +93,8 @@ module ProxyChecker
     end
 
     def check_post_capability
-      query_judges ssl: true, &config.validate_https
+      check_protocols :http, :https
+      query_judges ssl: ssl_supported?, method: :post, body: "test=text", &config.validate_post
     end
 
     private
