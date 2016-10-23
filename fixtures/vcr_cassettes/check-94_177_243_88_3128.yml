@@ -24,7 +24,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sat, 22 Oct 2016 17:51:47 GMT
+      - Sun, 23 Oct 2016 00:55:13 GMT
       Content-Type:
       - text/html
       Content-Length:
@@ -51,22 +51,22 @@ http_interactions:
         <body>
         <pre>
         HTTP_HOST = www.rx2.eu
-        HTTP_X_REAL_IP = 117.203.12.19
-        HTTP_X_FORWARDED_FOR = 117.203.12.19
+        HTTP_X_REAL_IP = 117.203.3.218
+        HTTP_X_FORWARDED_FOR = 117.203.3.218
         HTTP_X_ACCEL_INTERNAL = /internal-nginx-static-location
         HTTP_CONNECTION = close
         HTTP_USER_AGENT = Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36
-        REMOTE_ADDR = 117.203.12.19
-        REMOTE_PORT = 59692
+        REMOTE_ADDR = 117.203.3.218
+        REMOTE_PORT = 55434
         REQUEST_METHOD = GET
         REQUEST_URI = /ivy/azenv.php
-        REQUEST_TIME_FLOAT = 1477158707.423
-        REQUEST_TIME = 1477158707
+        REQUEST_TIME_FLOAT = 1477184113.752
+        REQUEST_TIME = 1477184113
         </pre>
         </body>
         </html>
     http_version: 
-  recorded_at: Sat, 22 Oct 2016 17:51:53 GMT
+  recorded_at: Sun, 23 Oct 2016 00:55:20 GMT
 - request:
     method: get
     uri: https://www.rx2.eu/ivy/azenv.php
@@ -91,7 +91,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sat, 22 Oct 2016 17:51:52 GMT
+      - Sun, 23 Oct 2016 00:55:15 GMT
       Content-Type:
       - text/html; charset=iso-8859-1
       Content-Length:
@@ -99,7 +99,7 @@ http_interactions:
       Connection:
       - close
       Set-Cookie:
-      - JTLSHOP=j1qst94ec28i3vh81l0tdfr997; path=/
+      - JTLSHOP=8cdi5mo4sd7ccpr6b5d3pomtg6; path=/
       Expires:
       - Thu, 19 Nov 1981 08:52:00 GMT
       Cache-Control:
@@ -118,7 +118,7 @@ http_interactions:
       encoding: ISO-8859-1
       string: ''
     http_version: 
-  recorded_at: Sat, 22 Oct 2016 17:51:57 GMT
+  recorded_at: Sun, 23 Oct 2016 00:55:21 GMT
 - request:
     method: get
     uri: http://www.rx2.eu/ivy/azenv.php
@@ -143,7 +143,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sat, 22 Oct 2016 17:51:52 GMT
+      - Sun, 23 Oct 2016 00:55:15 GMT
       Content-Type:
       - text/html
       Content-Length:
@@ -170,22 +170,22 @@ http_interactions:
         <body>
         <pre>
         HTTP_HOST = www.rx2.eu
-        HTTP_X_REAL_IP = 117.203.12.19
-        HTTP_X_FORWARDED_FOR = 117.203.12.19
+        HTTP_X_REAL_IP = 117.203.3.218
+        HTTP_X_FORWARDED_FOR = 117.203.3.218
         HTTP_X_ACCEL_INTERNAL = /internal-nginx-static-location
         HTTP_CONNECTION = close
         HTTP_USER_AGENT = Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36
-        REMOTE_ADDR = 117.203.12.19
-        REMOTE_PORT = 60114
+        REMOTE_ADDR = 117.203.3.218
+        REMOTE_PORT = 55502
         REQUEST_METHOD = GET
         REQUEST_URI = /ivy/azenv.php
-        REQUEST_TIME_FLOAT = 1477158712.673
-        REQUEST_TIME = 1477158712
+        REQUEST_TIME_FLOAT = 1477184115.714
+        REQUEST_TIME = 1477184115
         </pre>
         </body>
         </html>
     http_version: 
-  recorded_at: Sat, 22 Oct 2016 17:51:58 GMT
+  recorded_at: Sun, 23 Oct 2016 00:55:22 GMT
 - request:
     method: get
     uri: https://luisaranguren.com/azenv.php
@@ -208,7 +208,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 22 Oct 2016 17:51:43 GMT
+      - Sun, 23 Oct 2016 00:55:05 GMT
       Server:
       - Apache
       Vary:
@@ -227,11 +227,11 @@ http_interactions:
         1.04</title>\r\n</head>\r\n<body>\r\n<pre>\r\nHTTPS = on\nHTTP_USER_AGENT
         = Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
         like Gecko) Chrome/53.0.2785.143 Safari/537.36\nHTTP_CONNECTION = close\nHTTP_HOST
-        = luisaranguren.com\nREMOTE_ADDR = 117.203.12.19\nREQUEST_SCHEME = https\nREMOTE_PORT
-        = 63275\nREQUEST_METHOD = GET\nREQUEST_URI = /azenv.php\nREQUEST_TIME_FLOAT
-        = 1477158703.859\nREQUEST_TIME = 1477158703\n</pre>\r\n</body>\r\n</html>"
+        = luisaranguren.com\nREMOTE_ADDR = 117.203.3.218\nREQUEST_SCHEME = https\nREMOTE_PORT
+        = 49908\nREQUEST_METHOD = GET\nREQUEST_URI = /azenv.php\nREQUEST_TIME_FLOAT
+        = 1477184105.247\nREQUEST_TIME = 1477184105\n</pre>\r\n</body>\r\n</html>"
     http_version: 
-  recorded_at: Sat, 22 Oct 2016 17:52:01 GMT
+  recorded_at: Sun, 23 Oct 2016 00:55:24 GMT
 - request:
     method: post
     uri: https://www.rx2.eu/ivy/azenv.php
@@ -256,7 +256,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Sat, 22 Oct 2016 17:51:57 GMT
+      - Sun, 23 Oct 2016 00:55:19 GMT
       Content-Type:
       - text/html; charset=iso-8859-1
       Content-Length:
@@ -264,7 +264,7 @@ http_interactions:
       Connection:
       - close
       Set-Cookie:
-      - JTLSHOP=irls1k4iebjgml363qb9snhkl2; path=/
+      - JTLSHOP=3qcgqbaqmkgcn4mnc8bko2mrc6; path=/
       Expires:
       - Thu, 19 Nov 1981 08:52:00 GMT
       Cache-Control:
@@ -283,7 +283,7 @@ http_interactions:
       encoding: ISO-8859-1
       string: ''
     http_version: 
-  recorded_at: Sat, 22 Oct 2016 17:52:03 GMT
+  recorded_at: Sun, 23 Oct 2016 00:55:25 GMT
 - request:
     method: post
     uri: https://luisaranguren.com/azenv.php
@@ -306,13 +306,13 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 22 Oct 2016 17:51:47 GMT
+      - Sun, 23 Oct 2016 00:55:08 GMT
       Server:
       - Apache
       Vary:
       - Accept-Encoding
       Content-Length:
-      - '682'
+      - '683'
       Connection:
       - close
       Content-Type:
@@ -325,11 +325,11 @@ http_interactions:
         1.04</title>\r\n</head>\r\n<body>\r\n<pre>\r\nHTTPS = on\nHTTP_USER_AGENT
         = Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
         like Gecko) Chrome/53.0.2785.143 Safari/537.36\nHTTP_CONNECTION = close\nHTTP_HOST
-        = luisaranguren.com\nREMOTE_ADDR = 117.203.12.19\nREQUEST_SCHEME = https\nREMOTE_PORT
-        = 63277\nREQUEST_METHOD = POST\nREQUEST_URI = /azenv.php\nREQUEST_TIME_FLOAT
-        = 1477158707.07\nREQUEST_TIME = 1477158707\n</pre>\r\n</body>\r\n</html>"
+        = luisaranguren.com\nREMOTE_ADDR = 117.203.3.218\nREQUEST_SCHEME = https\nREMOTE_PORT
+        = 49910\nREQUEST_METHOD = POST\nREQUEST_URI = /azenv.php\nREQUEST_TIME_FLOAT
+        = 1477184108.751\nREQUEST_TIME = 1477184108\n</pre>\r\n</body>\r\n</html>"
     http_version: 
-  recorded_at: Sat, 22 Oct 2016 17:52:05 GMT
+  recorded_at: Sun, 23 Oct 2016 00:55:27 GMT
 - request:
     method: get
     uri: http://ip-api.com/json/94.177.243.88
@@ -356,7 +356,7 @@ http_interactions:
       Content-Type:
       - application/json; charset=utf-8
       Date:
-      - Sat, 22 Oct 2016 17:52:05 GMT
+      - Sun, 23 Oct 2016 00:55:27 GMT
       Content-Length:
       - '276'
       Connection:
@@ -366,5 +366,5 @@ http_interactions:
       string: '{"as":"AS199653 ARUBAFR-AS","city":"Paris","country":"France","countryCode":"FR","isp":"Aruba
         S.p.A.","lat":48.8667,"lon":2.3333,"org":"Aruba S.p.A.","query":"94.177.243.88","region":"J","regionName":"Île-de-France","status":"success","timezone":"Europe/Paris","zip":"75001"}'
     http_version: 
-  recorded_at: Sat, 22 Oct 2016 17:52:05 GMT
+  recorded_at: Sun, 23 Oct 2016 00:55:27 GMT
 recorded_with: VCR 3.0.3

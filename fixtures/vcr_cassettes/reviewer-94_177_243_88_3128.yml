@@ -24,126 +24,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Fri, 21 Oct 2016 23:20:21 GMT
-      Content-Type:
-      - text/html
-      Content-Length:
-      - '758'
-      Connection:
-      - close
-      X-Powered-By:
-      - PleskLin
-      Vary:
-      - User-Agent,Accept-Encoding
-      Cache-Control:
-      - private, no-cache, no-store, proxy-revalidate, no-transform
-      Pragma:
-      - no-cache
-    body:
-      encoding: ASCII-8BIT
-      string: |-
-        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-        <head>
-        <title>AZ Environment variables 1.04</title>
-        </head>
-        <body>
-        <pre>
-        HTTP_HOST = www.rx2.eu
-        HTTP_X_REAL_IP = 117.203.19.47
-        HTTP_X_FORWARDED_FOR = 117.203.19.47
-        HTTP_X_ACCEL_INTERNAL = /internal-nginx-static-location
-        HTTP_CONNECTION = close
-        HTTP_USER_AGENT = Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36
-        REMOTE_ADDR = 117.203.19.47
-        REMOTE_PORT = 46688
-        REQUEST_METHOD = GET
-        REQUEST_URI = /ivy/azenv.php
-        REQUEST_TIME_FLOAT = 1477092021.15
-        REQUEST_TIME = 1477092021
-        </pre>
-        </body>
-        </html>
-    http_version: 
-  recorded_at: Fri, 21 Oct 2016 23:20:26 GMT
-- request:
-    method: get
-    uri: https://www.rx2.eu/ivy/azenv.php
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
-        like Gecko) Chrome/53.0.2785.143 Safari/537.36
-      Content-Type:
-      - text/plain
-      Connection:
-      - close
-      Host:
-      - www.rx2.eu
-  response:
-    status:
-      code: 302
-      message: Found
-    headers:
-      Server:
-      - nginx
-      Date:
-      - Fri, 21 Oct 2016 23:20:22 GMT
-      Content-Type:
-      - text/html; charset=iso-8859-1
-      Content-Length:
-      - '0'
-      Connection:
-      - close
-      Set-Cookie:
-      - JTLSHOP=1b4redlo1r5dte7nme3ii9ilt3; path=/
-      Expires:
-      - Thu, 19 Nov 1981 08:52:00 GMT
-      Cache-Control:
-      - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
-      Pragma:
-      - no-cache
-      Location:
-      - http://www.rx2.eu/ivy/azenv.php
-      Vary:
-      - Accept-Encoding
-      X-Ua-Compatible:
-      - IE=edge
-      X-Content-Type-Options:
-      - nosniff
-    body:
-      encoding: ISO-8859-1
-      string: ''
-    http_version: 
-  recorded_at: Fri, 21 Oct 2016 23:20:27 GMT
-- request:
-    method: get
-    uri: http://www.rx2.eu/ivy/azenv.php
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
-        like Gecko) Chrome/53.0.2785.143 Safari/537.36
-      Content-Type:
-      - text/plain
-      Connection:
-      - close
-      Host:
-      - www.rx2.eu
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - nginx
-      Date:
-      - Fri, 21 Oct 2016 23:20:22 GMT
+      - Sun, 23 Oct 2016 00:55:02 GMT
       Content-Type:
       - text/html
       Content-Length:
@@ -170,22 +51,141 @@ http_interactions:
         <body>
         <pre>
         HTTP_HOST = www.rx2.eu
-        HTTP_X_REAL_IP = 117.203.19.47
-        HTTP_X_FORWARDED_FOR = 117.203.19.47
+        HTTP_X_REAL_IP = 117.203.3.218
+        HTTP_X_FORWARDED_FOR = 117.203.3.218
         HTTP_X_ACCEL_INTERNAL = /internal-nginx-static-location
         HTTP_CONNECTION = close
         HTTP_USER_AGENT = Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36
-        REMOTE_ADDR = 117.203.19.47
-        REMOTE_PORT = 46768
+        REMOTE_ADDR = 117.203.3.218
+        REMOTE_PORT = 54902
         REQUEST_METHOD = GET
         REQUEST_URI = /ivy/azenv.php
-        REQUEST_TIME_FLOAT = 1477092022.568
-        REQUEST_TIME = 1477092022
+        REQUEST_TIME_FLOAT = 1477184102.795
+        REQUEST_TIME = 1477184102
         </pre>
         </body>
         </html>
     http_version: 
-  recorded_at: Fri, 21 Oct 2016 23:20:28 GMT
+  recorded_at: Sun, 23 Oct 2016 00:55:09 GMT
+- request:
+    method: get
+    uri: https://www.rx2.eu/ivy/azenv.php
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/53.0.2785.143 Safari/537.36
+      Content-Type:
+      - text/plain
+      Connection:
+      - close
+      Host:
+      - www.rx2.eu
+  response:
+    status:
+      code: 302
+      message: Found
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 23 Oct 2016 00:55:04 GMT
+      Content-Type:
+      - text/html; charset=iso-8859-1
+      Content-Length:
+      - '0'
+      Connection:
+      - close
+      Set-Cookie:
+      - JTLSHOP=uvu43fbc7b70sij66vrtmq6995; path=/
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Cache-Control:
+      - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+      Pragma:
+      - no-cache
+      Location:
+      - http://www.rx2.eu/ivy/azenv.php
+      Vary:
+      - Accept-Encoding
+      X-Ua-Compatible:
+      - IE=edge
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: ISO-8859-1
+      string: ''
+    http_version: 
+  recorded_at: Sun, 23 Oct 2016 00:55:10 GMT
+- request:
+    method: get
+    uri: http://www.rx2.eu/ivy/azenv.php
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/53.0.2785.143 Safari/537.36
+      Content-Type:
+      - text/plain
+      Connection:
+      - close
+      Host:
+      - www.rx2.eu
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Sun, 23 Oct 2016 00:55:04 GMT
+      Content-Type:
+      - text/html
+      Content-Length:
+      - '759'
+      Connection:
+      - close
+      X-Powered-By:
+      - PleskLin
+      Vary:
+      - User-Agent,Accept-Encoding
+      Cache-Control:
+      - private, no-cache, no-store, proxy-revalidate, no-transform
+      Pragma:
+      - no-cache
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+        <head>
+        <title>AZ Environment variables 1.04</title>
+        </head>
+        <body>
+        <pre>
+        HTTP_HOST = www.rx2.eu
+        HTTP_X_REAL_IP = 117.203.3.218
+        HTTP_X_FORWARDED_FOR = 117.203.3.218
+        HTTP_X_ACCEL_INTERNAL = /internal-nginx-static-location
+        HTTP_CONNECTION = close
+        HTTP_USER_AGENT = Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36
+        REMOTE_ADDR = 117.203.3.218
+        REMOTE_PORT = 55036
+        REQUEST_METHOD = GET
+        REQUEST_URI = /ivy/azenv.php
+        REQUEST_TIME_FLOAT = 1477184104.756
+        REQUEST_TIME = 1477184104
+        </pre>
+        </body>
+        </html>
+    http_version: 
+  recorded_at: Sun, 23 Oct 2016 00:55:11 GMT
 - request:
     method: get
     uri: https://luisaranguren.com/azenv.php
@@ -208,7 +208,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Fri, 21 Oct 2016 23:20:12 GMT
+      - Sun, 23 Oct 2016 00:54:54 GMT
       Server:
       - Apache
       Vary:
@@ -227,11 +227,11 @@ http_interactions:
         1.04</title>\r\n</head>\r\n<body>\r\n<pre>\r\nHTTPS = on\nHTTP_USER_AGENT
         = Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
         like Gecko) Chrome/53.0.2785.143 Safari/537.36\nHTTP_CONNECTION = close\nHTTP_HOST
-        = luisaranguren.com\nREMOTE_ADDR = 117.203.19.47\nREQUEST_SCHEME = https\nREMOTE_PORT
-        = 59738\nREQUEST_METHOD = GET\nREQUEST_URI = /azenv.php\nREQUEST_TIME_FLOAT
-        = 1477092012.925\nREQUEST_TIME = 1477092012\n</pre>\r\n</body>\r\n</html>"
+        = luisaranguren.com\nREMOTE_ADDR = 117.203.3.218\nREQUEST_SCHEME = https\nREMOTE_PORT
+        = 49900\nREQUEST_METHOD = GET\nREQUEST_URI = /azenv.php\nREQUEST_TIME_FLOAT
+        = 1477184094.415\nREQUEST_TIME = 1477184094\n</pre>\r\n</body>\r\n</html>"
     http_version: 
-  recorded_at: Fri, 21 Oct 2016 23:20:30 GMT
+  recorded_at: Sun, 23 Oct 2016 00:55:13 GMT
 - request:
     method: post
     uri: https://www.rx2.eu/ivy/azenv.php
@@ -256,7 +256,7 @@ http_interactions:
       Server:
       - nginx
       Date:
-      - Fri, 21 Oct 2016 23:20:25 GMT
+      - Sun, 23 Oct 2016 00:55:08 GMT
       Content-Type:
       - text/html; charset=iso-8859-1
       Content-Length:
@@ -264,7 +264,7 @@ http_interactions:
       Connection:
       - close
       Set-Cookie:
-      - JTLSHOP=au3j59ish0dedc54ih5oeqr855; path=/
+      - JTLSHOP=qii7l40qa6er3n0tam32e4s1r3; path=/
       Expires:
       - Thu, 19 Nov 1981 08:52:00 GMT
       Cache-Control:
@@ -283,7 +283,7 @@ http_interactions:
       encoding: ISO-8859-1
       string: ''
     http_version: 
-  recorded_at: Fri, 21 Oct 2016 23:20:31 GMT
+  recorded_at: Sun, 23 Oct 2016 00:55:14 GMT
 - request:
     method: post
     uri: https://luisaranguren.com/azenv.php
@@ -306,7 +306,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Fri, 21 Oct 2016 23:20:15 GMT
+      - Sun, 23 Oct 2016 00:54:57 GMT
       Server:
       - Apache
       Vary:
@@ -325,9 +325,9 @@ http_interactions:
         1.04</title>\r\n</head>\r\n<body>\r\n<pre>\r\nHTTPS = on\nHTTP_USER_AGENT
         = Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
         like Gecko) Chrome/53.0.2785.143 Safari/537.36\nHTTP_CONNECTION = close\nHTTP_HOST
-        = luisaranguren.com\nREMOTE_ADDR = 117.203.19.47\nREQUEST_SCHEME = https\nREMOTE_PORT
-        = 59740\nREQUEST_METHOD = POST\nREQUEST_URI = /azenv.php\nREQUEST_TIME_FLOAT
-        = 1477092015.697\nREQUEST_TIME = 1477092015\n</pre>\r\n</body>\r\n</html>"
+        = luisaranguren.com\nREMOTE_ADDR = 117.203.3.218\nREQUEST_SCHEME = https\nREMOTE_PORT
+        = 49902\nREQUEST_METHOD = POST\nREQUEST_URI = /azenv.php\nREQUEST_TIME_FLOAT
+        = 1477184097.792\nREQUEST_TIME = 1477184097\n</pre>\r\n</body>\r\n</html>"
     http_version: 
-  recorded_at: Fri, 21 Oct 2016 23:20:33 GMT
+  recorded_at: Sun, 23 Oct 2016 00:55:16 GMT
 recorded_with: VCR 3.0.3

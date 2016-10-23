@@ -17,7 +17,6 @@ module ProxyChecker
 
     def configure(&block)
       block.arity == 1 ? yield(config) : yield if block_given?
-      config.current_ip ||= config.fetch_current_ip
     end
   end
 

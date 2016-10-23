@@ -85,15 +85,15 @@ validate the proxy.
 
 ```ruby
 ProxyChecker.configure do |config|
-  config.http_block = -> (key, uri, response, time){
+  config.validate_http = -> (key, uri, response, time){
     response.code == 200 && !!response.body.match(/request_method\s+=\s+get/i)
   }
 
-  config.https_block = -> (key, uri, response, time){
+  config.validate_https = -> (key, uri, response, time){
     response.code == 200 && !!response.body.match(/https\s+=\s+on.*request_method\s+=\s+get/mi)
   }
 
-  config.post_block = -> (key, uri, response, time){
+  config.validate_post = -> (key, uri, response, time){
     response.code == 200 && !!response.body.match(/request_method\s+=\s+post/i)
   }
 end
@@ -158,4 +158,3 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/proxy_checker.
-

@@ -22,7 +22,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 22 Oct 2016 17:17:47 GMT
+      - Sun, 23 Oct 2016 00:55:17 GMT
       Content-Type:
       - application/json;charset=utf-8
       Transfer-Encoding:
@@ -30,8 +30,8 @@ http_interactions:
       Connection:
       - close
       Set-Cookie:
-      - __cfduid=d7c8b11fde64a311dac027e350e8e40bd1477156666; expires=Sun, 22-Oct-17
-        17:17:46 GMT; path=/; domain=.rawgit.com; HttpOnly
+      - __cfduid=dd96036723a1e858c6267df58f2ffde031477184116; expires=Mon, 23-Oct-17
+        00:55:16 GMT; path=/; domain=.rawgit.com; HttpOnly
       X-Content-Type-Options:
       - nosniff
       X-Robots-Tag:
@@ -45,11 +45,11 @@ http_interactions:
       Vary:
       - Accept-Encoding
       Rawgit-Cache-Status:
-      - EXPIRED
+      - MISS
       Server:
       - cloudflare-nginx
       Cf-Ray:
-      - 2f5e9acc38e41798-SIN
+      - 2f6138fa09083216-SIN
     body:
       encoding: UTF-8
       string: |-
@@ -62,5 +62,5 @@ http_interactions:
           }
         }
     http_version: 
-  recorded_at: Sat, 22 Oct 2016 17:17:47 GMT
+  recorded_at: Sun, 23 Oct 2016 00:55:18 GMT
 recorded_with: VCR 3.0.3

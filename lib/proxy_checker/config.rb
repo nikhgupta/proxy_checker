@@ -2,9 +2,11 @@ module ProxyChecker
   class Config
     include ProxyChecker::Utility
 
-    attr_accessor :info_url, :read_timeout, :connect_timeout,
-      :current_ip, :ssl_context, :log_error, :judge_urls, :current_ip_url,
-      :websites, :http_block, :https_block, :post_block, :keep_failed_attempts
+    attr_accessor :info_url, :judge_urls, :current_ip_url,
+      :read_timeout, :connect_timeout, :ssl_context,
+      :current_ip, :keep_failed_attempts,
+      :log_error, :parse_current_ip, :websites,
+      :validate_http,:validate_post,  :validate_https
 
     def initialize
       @info_url   = "http://ip-api.com/json/%{ip}"
@@ -21,17 +23,19 @@ module ProxyChecker
 
       @log_error = -> (e) { puts "\e[31mEncountered ERROR: #{e.class} #{e}\e[0m" }
 
-      @http_block = -> (key, uri, response, time){
+      @validate_http = -> (response, url){
         response.code == 200 && !!response.body.match(/request_method\s+=\s+get/i)
       }
 
-      @https_block = -> (key, uri, response, time){
+      @validate_https = -> (response, url){
         response.code == 200 && !!response.body.match(/https\s+=\s+on.*request_method\s+=\s+get/mi)
       }
 
-      @post_block = -> (key, uri, response, time){
+      @validate_post = -> (response, url){
         response.code == 200 && !!response.body.match(/request_method\s+=\s+post/i)
       }
+
+      @parse_current_ip = nil
 
       @websites = {
         google:    "http://www.google.com/search?q=%{s}",
@@ -40,14 +44,12 @@ module ProxyChecker
         facebook:  "http://www.facebook.com/search/top/?q=%{s}",
         pinterest: "http://www.pinterest.com/search/?q=%{s}",
       }
+
+      @current_ip ||= ENV['CURRENT_IP'] || fetch_current_ip
     end
 
     def timeout
       { read_timeout: @read_timeout, connect_timeout: @connect_timeout, write_timeout: @read_timeout }
-    end
-
-    def current_ip
-      @current_ip ||= ENV['CURRENT_IP'] || fetch_current_ip
     end
 
     def fetch_current_ip
@@ -55,7 +57,9 @@ module ProxyChecker
         intf.ipv4? and !intf.ipv4_loopback? and !intf.ipv4_multicast? and !intf.ipv4_private?
       end
 
-      ip ? ip.ip_address : agent.get(@current_ip_url).to_s
+      return ip.ip_address if ip
+      response = agent.get(@current_ip_url)
+      @parse_current_ip ? @parse_current_ip.call(response) : response.to_s
     end
   end
 end

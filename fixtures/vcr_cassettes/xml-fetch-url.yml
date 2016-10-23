@@ -22,7 +22,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Sat, 22 Oct 2016 17:21:34 GMT
+      - Sun, 23 Oct 2016 00:55:18 GMT
       Content-Type:
       - text/xml;charset=utf-8
       Transfer-Encoding:
@@ -30,8 +30,8 @@ http_interactions:
       Connection:
       - close
       Set-Cookie:
-      - __cfduid=da858efad3e62c09d6afad48b003b24911477156894; expires=Sun, 22-Oct-17
-        17:21:34 GMT; path=/; domain=.rawgit.com; HttpOnly
+      - __cfduid=d1ef8d60af11d751553a26c012795765c1477184118; expires=Mon, 23-Oct-17
+        00:55:18 GMT; path=/; domain=.rawgit.com; HttpOnly
       X-Content-Type-Options:
       - nosniff
       X-Robots-Tag:
@@ -49,7 +49,7 @@ http_interactions:
       Server:
       - cloudflare-nginx
       Cf-Ray:
-      - 2f5ea05e8edf3066-SIN
+      - 2f6139046f3b1792-SIN
     body:
       encoding: UTF-8
       string: |-
@@ -61,5 +61,5 @@ http_interactions:
           <body>Don't forget me this weekend!</body>
         </note>
     http_version: 
-  recorded_at: Sat, 22 Oct 2016 17:21:34 GMT
+  recorded_at: Sun, 23 Oct 2016 00:55:19 GMT
 recorded_with: VCR 3.0.3

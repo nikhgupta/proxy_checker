@@ -54,15 +54,26 @@ describe ProxyChecker::Config do
 
   it "defaults to Env Variable or an External URL for obtaining current IP address" do
     expect(subject.current_ip).to eq "CURRENT_IP"
-    allow(ENV).to receive(:[]).with("CURRENT_IP").and_return nil
+    allow(ENV).to receive(:[]).and_return nil
 
     expect_any_instance_of(HTTP::Client).to receive(:request).with(:get, subject.current_ip_url, {}).once
-    reset_config; subject.current_ip
+    reset_config
   end
 
   it "allows setting up the current IP address for the server" do
     set_config :current_ip, "123.123.123.123"
     expect(subject.current_ip).to eq "123.123.123.123"
+  end
+
+  it "allows parsing of response received from external service when querying current IP" do
+    VCR.use_cassette("current-ip-json") do
+      allow(ENV).to receive(:[]).and_return nil
+      reset_config current_ip_url: "http://ip-api.com/json",
+        parse_current_ip: -> (res){ res.parse['query'] if res.mime_type == "application/json" }
+
+      expect(subject.current_ip).not_to be_nil
+      expect(subject.current_ip).to eq "117.203.3.218"
+    end
   end
 
   it "has default timeouts set for HTTP connections" do
@@ -90,19 +101,19 @@ describe ProxyChecker::Config do
   end
 
   it "allows setting up callbacks for verifying which protocol was successful" do
-    set_config :http_block, -> (key, uri, res, time) { res.code == 500 }
+    set_config :validate_http,  -> (res, url) { res.code == 500 }
     response = verify_protocol :http
     expect(response.count).to eq 2
     expect(response[0].success).to be_falsey
     expect(response[1].success).to be_falsey
 
-    set_config :https_block, -> (key, uri, res, time) { res.code == 500 }
+    set_config :validate_https, -> (res, url) { res.code == 500 }
     response = verify_protocol :https
     expect(response.count).to eq 2
     expect(response[0].success).to be_falsey
     expect(response[1].success).to be_falsey
 
-    set_config :post_block, -> (key, uri, res, time) { res.code == 200 && res.content_type == "text/html" }
+    set_config :validate_post,  -> (res, url) { res.code == 200 && res.content_type == "text/html" }
     response = verify_protocol :post
     expect(response.count).to eq 1
     expect(response[0].success).to be_truthy
@@ -111,10 +122,10 @@ describe ProxyChecker::Config do
   it "allows choosing whether or not to keep HTTP/S requests that failed" do
     set_config :keep_failed_attempts, false
 
-    set_config :http_block, -> (key, uri, res, time) { res.code == 200 }
+    set_config :validate_http, -> (res, url) { res.code == 200 }
     expect(verify_protocol(:http).count).to be 1
 
-    set_config :http_block, -> (key, uri, res, time) { res.code == 500 }
+    set_config :validate_http, -> (res, url) { res.code == 500 }
     expect(verify_protocol(:http).count).to be 0
   end
 

@@ -45,7 +45,7 @@ module ProxyChecker
       if config.log_error.respond_to?(:call) && config.log_error.arity == 1
         config.log_error.call(e)
       elsif config.log_error.respond_to?(:call)
-        config.log_error.call(e, uri, options, response)
+        config.log_error.call(e, uri.to_s, options, response)
       end
       return OpenStruct.new(uri: uri, error: e.class, message: e.message)
     end
