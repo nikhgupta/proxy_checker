@@ -54,7 +54,7 @@ module ProxyChecker
 
     def get_proxy_level
       check_protocols :http, :https
-      response = @protocols[ssl_supported? ? 'https' : 'http'].last.response
+      response = @protocols[http_supported? ? 'http' : 'https'].last.response
 
       return 'na'          if proxy_failed?
       return 'skipped'     if config.current_ip.to_s.strip.empty? || config.current_ip == "error"
@@ -68,8 +68,13 @@ module ProxyChecker
       get_proxy_temperance
       check_capabilities :post
       check_protocols :http, :https
-    end
 
+      speeds = data.values.map(&:values).flatten.map do |val|
+        val.timestamp if val.respond_to?(:success) && val.success
+      end.compact
+
+      (speeds.inject(0, :+) / speeds.count).to_i
+    end
 
     # Check if the proxy tempers with the data returned by the server.
     # - by verifying the body of the response
@@ -78,9 +83,13 @@ module ProxyChecker
     #
     def get_proxy_temperance
       data = fetch_url config.digest_url
-      body = data.body['text'] != Digest::SHA512.hexdigest("nikhgupta")
-      content_type = data.headers['Content-Type'] != "text/plain; charset=utf-8"
-      headers = Digest::MD5.hexdigest(data.headers.keys.join) != "e9e58bd05b9eb991e07ec923f3ec2863"
+      if data && data.body
+        body = data.body['text'] != Digest::SHA512.hexdigest("nikhgupta")
+        content_type = data.headers['Content-Type'] != "text/plain; charset=utf-8"
+        headers = Digest::MD5.hexdigest(data.headers.keys.join) != "e9e58bd05b9eb991e07ec923f3ec2863"
+      else
+        body = content_type = headers = nil
+      end
       { "body" => body, "content_type" => content_type, "headers" => headers }
     end
 

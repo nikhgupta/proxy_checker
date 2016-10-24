@@ -21,7 +21,10 @@ module ProxyChecker
     def fetch_url(uri, options = {})
       uri = URI.parse(uri.to_s)
       method = options.delete(:method) || :get
-      options[:ssl_context] = config.ssl_context if options.delete(:ssl)
+      if options.delete(:ssl)
+        options[:ssl_context] = config.ssl_context
+        uri.scheme = "https"
+      end
 
       http = agent connect: config.connect_timeout, read: config.read_timeout
       http = http.via(@ip, @port) if options.delete(:proxy) != false
@@ -47,7 +50,7 @@ module ProxyChecker
       successful = false
       responses = config.judge_urls.map do |url|
         next if successful
-        data = fetch_url_with_timestamp url, options
+        data = fetch_url_with_timestamp url, options.dup
         data.success = successful = block.call data.response, url if block
         data
       end.compact

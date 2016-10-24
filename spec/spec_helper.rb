@@ -8,8 +8,8 @@ require "proxy_checker"
 require 'webmock/rspec'
 require_relative "support.rb"
 
-TEST_PROXY_IP   = "94.177.243.88"
-TEST_PROXY_PORT = 3128
+TEST_PROXY_IP   = "87.98.219.96"
+TEST_PROXY_PORT = 8080
 
 VCR.configure do |config|
   config.hook_into :webmock
@@ -20,9 +20,6 @@ RSpec.configure do |config|
   config.include ProxyChecker::TestHelper
   config.before(:each) do
     ENV['CURRENT_IP'] = "CURRENT_IP"
-    ProxyChecker.config = nil
-    ProxyChecker.config.log_error = nil
-    ProxyChecker.config.keep_failed_attempts = true
-    WebMock.reset!
+    reset_configuration
   end
 end

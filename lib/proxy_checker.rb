@@ -1,6 +1,7 @@
 require 'pry'
 require 'uri'
 require 'http'
+require 'curb'
 require "proxy_checker/version"
 require "proxy_checker/utility"
 require "proxy_checker/config"

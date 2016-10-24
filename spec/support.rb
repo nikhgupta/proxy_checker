@@ -14,5 +14,16 @@ module ProxyChecker
       end
       review[key]
     end
+
+    def reset_configuration
+      WebMock.reset!
+      ProxyChecker.config = nil
+      ProxyChecker.configure do |config|
+        # config.log_error = nil
+        config.read_timeout = 10
+        config.connect_timeout = 5
+        config.keep_failed_attempts = true
+      end
+    end
   end
 end

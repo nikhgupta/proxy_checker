@@ -1,12 +1,10 @@
 describe ProxyChecker::Base do
   subject{ described_class.new("123.123.123.123", "12345") }
 
-  def run(name, defaults = {}, &block)
+  def run(name, &block)
     ENV['CURRENT_IP'] = nil
-    ProxyChecker.config = nil
-    defaults.map{|key, val| ProxyChecker.config.send("#{key}=", val)}
-
     @data = with_cassette_for(name) do
+      reset_configuration
       described_class.new(@ip, @port).fetch(&block)
     end
 
@@ -43,7 +41,7 @@ describe ProxyChecker::Base do
   end
 
   it "calculates the level of anonymity for the proxy" do
-    run("proxy-level"){ fetch_information :level }
+    data = run("proxy-level"){ fetch_information :level }
     expect(@info).to include "level" => "transparent"
     expect(@info).not_to include "exposed_ip"
     expect(@protocols.keys).to eq ['http', 'https']
@@ -70,7 +68,7 @@ describe ProxyChecker::Base do
   end
 
   it "marks the proxy level as `transparent` if current server IP is exposed" do
-    allow_any_instance_of(ProxyChecker::Config).to receive(:current_ip).and_return "117.203.3.218"
+    allow_any_instance_of(ProxyChecker::Config).to receive(:current_ip).and_return "117.204.249.174"
     run("proxy-level"){ fetch_information :level }
     expect(@info).to include "level" => "transparent"
   end
@@ -98,6 +96,12 @@ describe ProxyChecker::Base do
     stub_request(:get, /.*gist\.github.*/).to_return body: '{"a": "b"}', headers: { "Content-Type" => "application/json"}
     data = run("proxy-temperance"){ fetch_information :temperance }
     expect(@info['temperance']).to eq "body" => true, "content_type" => true, "headers" => true
+  end
+
+  it "calculates the speed of the proxy in relevance to the time taken for successful responses" do
+    data = run("proxy-speed") { fetch_information :speed }
+    calc = data["protocols"]["http"][0].timestamp + data["protocols"]["https"][1].timestamp + data["capabilities"]["post"][1].timestamp
+    expect(data["info"]["speed"]).to eq (calc/3).to_i
   end
 
   it "verifies if the proxy supports `http` protocol" do
