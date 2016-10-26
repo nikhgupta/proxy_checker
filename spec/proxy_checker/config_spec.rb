@@ -41,7 +41,16 @@ describe ProxyChecker::Config do
       expect(subject.adapter).to be_a dummy_adapter
       expect(subject.adapter.ping).to eq :pong
     end
+
+    it "has a list of all adapters derived from base adapter" do
+      dummy_adapter = Class.new(ProxyChecker::Adapter::Base)
+      expect(subject.adapters).to include dummy_adapter
+      expect(subject.adapters).to include ProxyChecker::Adapter::Azenv
+      expect(subject.adapters).to include ProxyChecker::Adapter::Server
+    end
   end
+
+  context ""
 
   it "has a default URL for fetching information about Proxy IP" do
     expect(subject.info_url).to eq "http://ip-api.com/json/%{ip}"
