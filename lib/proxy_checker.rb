@@ -1,12 +1,15 @@
 require 'pry'
 require 'uri'
 require 'http'
-require 'curb'
+require 'active_support/inflector'
 require "proxy_checker/version"
-require "proxy_checker/utility"
-require "proxy_checker/config"
-require "proxy_checker/base"
-require "proxy_checker/body_parser"
+
+require "proxy_checker/utility"            # generic methods
+require "proxy_checker/dsl"                # dsl for the gem
+require "proxy_checker/config"             # configuration
+require 'proxy_checker/adapters/base'      # base adapter class
+require 'proxy_checker/adapters/azenv'     # adapter for Azenv.php
+require 'proxy_checker/adapters/server'    # adapter that uses custom server
 
 module ProxyChecker
   class << self
@@ -22,20 +25,12 @@ module ProxyChecker
   end
 
   def self.new(ip, port, &block)
-    reviewer = ProxyChecker::Base.new(ip, port)
-    reviewer.instance_eval(&block)
-    reviewer
+    adapter = ProxyChecker.config.adapter.new(ip, port)
+    adapter.instance_eval(&block)
+    adapter
   end
 
   def self.data_for(ip, port, &block)
     self.new(ip, port, &block).data
-  end
-
-  def self.check(ip, port, options = {})
-    info = options.fetch(:info, true)
-    protocols = [ options.fetch(:protocols, []) ].flatten
-    data = ProxyChecker::Reviewer.new(ip, port).fetch(*protocols)
-    data.merge!(info: ProxyChecker::Informer.new(ip, port).fetch) if info
-    data
   end
 end

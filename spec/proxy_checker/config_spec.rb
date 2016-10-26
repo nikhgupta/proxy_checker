@@ -14,37 +14,49 @@ describe ProxyChecker::Config do
   let(:port) { "12345" }
   let(:ip){ "123.123.123.123" }
 
-  let(:my_class) do
-    Class.new{ include ProxyChecker::Utility }.new
-  end
-
   subject do
     VCR.use_cassette("config"){ ProxyChecker.config }
+  end
+
+  context "with adapters" do
+    it "sets `server` as the default adapter" do
+      reset_config
+      expect(subject.adapter).to be_a ProxyChecker::Adapter::Server
+      expect(subject.adapter.name).to eq "server"
+    end
+
+    it "allows setting/choosing up another built-in adapter" do
+      subject.adapter = :azenv
+      expect(subject.adapter).to be_a ProxyChecker::Adapter::Azenv
+      expect(subject.adapter.name).to eq "azenv"
+    end
+
+    it "raises error if unknown adapter is setup" do
+      expect{ subject.adapter = :unknown }.to raise_error NotImplementedError
+    end
+
+    it "allows setting up a custom adapter" do
+      dummy_adapter = Class.new{ def ping; :pong; end }
+      expect { subject.adapter = dummy_adapter }.not_to raise_error
+      expect(subject.adapter).to be_a dummy_adapter
+      expect(subject.adapter.ping).to eq :pong
+    end
   end
 
   it "has a default URL for fetching information about Proxy IP" do
     expect(subject.info_url).to eq "http://ip-api.com/json/%{ip}"
   end
 
+  it "has default URL for obtaining current IP" do
+    expect(subject.current_ip_url).to eq "http://ip-api.com/json"
+  end
+
   it "allows setting up URL for fetching information about the proxy IP" do
     set_config :info_url, "http://domain.com/%{ip}/%{port}"
     expect(subject.info_url).to eq "http://domain.com/%{ip}/%{port}"
-    expect(my_class.info_url_for(ip, port)).to eq "http://domain.com/123.123.123.123/12345"
-  end
 
-  it "has default URLs for Proxy Judges" do
-    expect(subject.judge_urls.count).to be 2
-    expect(subject.judge_urls).to include "http://luisaranguren.com/azenv.php"
-  end
-
-  it "allows setting up URL for multiple Proxy Judges" do
-    set_config :judge_urls, [ "http://domain.com/%{ip}/%{port}" ]
-    expect(subject.judge_urls.count).to be 1
-    expect(subject.judge_urls).to include "http://domain.com/%{ip}/%{port}"
-  end
-
-  it "has default URL for obtaining current IP" do
-    expect(subject.current_ip_url).to eq "https://api.ipify.org/?format=text"
+    url = subject.info_url % {ip: ip, port: port}
+    expect(url).to eq "http://domain.com/123.123.123.123/12345"
   end
 
   it "allows setting up URL to be used for obtaining current IP" do
@@ -56,8 +68,14 @@ describe ProxyChecker::Config do
     expect(subject.current_ip).to eq "CURRENT_IP"
     allow(ENV).to receive(:[]).and_return nil
 
-    expect_any_instance_of(HTTP::Client).to receive(:request).with(:get, subject.current_ip_url, {}).once
+    expect_any_instance_of(HTTP::Client).to receive(:request).with(
+      :get, subject.current_ip_url, {}
+    ).once.and_call_original
+
     reset_config
+    VCR.use_cassette("config-current-ip") do
+      expect(ProxyChecker.config.current_ip).not_to be_nil
+    end
   end
 
   it "allows setting up the current IP address for the server" do
@@ -65,16 +83,16 @@ describe ProxyChecker::Config do
     expect(subject.current_ip).to eq "123.123.123.123"
   end
 
-  it "allows parsing of response received from external service when querying current IP" do
-    VCR.use_cassette("current-ip-json") do
-      allow(ENV).to receive(:[]).with("CURRENT_IP").and_return nil
-      reset_config current_ip_url: "http://api.ipify.org/?format=text",
-        parse_current_ip: -> (res){ res.raw_body }
+  # it "allows parsing of response received from external service when querying current IP" do
+  #   VCR.use_cassette("config-current-ip-parse") do
+  #     allow(ENV).to receive(:[]).with("CURRENT_IP").and_return nil
+  #     reset_config current_ip_url: "http://api.ipify.org/?format=text",
+  #       parse_current_ip: -> (res){ res.raw_body }
 
-      expect(subject.current_ip).not_to be_nil
-      expect(subject.current_ip).to eq "117.203.3.218"
-    end
-  end
+  #     expect(subject.current_ip).not_to be_nil
+  #     expect(subject.current_ip).to eq "117.203.3.218"
+  #   end
+  # end
 
   it "has default timeouts set for HTTP connections" do
     expect(subject.timeout).to include read_timeout: 10, connect_timeout: 5
@@ -95,9 +113,9 @@ describe ProxyChecker::Config do
   end
 
   it "passes error, url, options and response object to the log_error callback if needed" do
-    set_config :log_error, -> (e, uri, options, response) { puts "#{e.class}: #{uri}: #{response} #{options}" }
+    set_config :log_error, -> (e, uri, options) { puts "#{e.class}: #{uri}: #{options}" }
     allow_any_instance_of(HTTP::Client).to receive(:request).and_raise HTTP::Error, "Some Error Occurred"
-    expect{ verify_protocol :http }.to output(/HTTP::Error: .*?rx2\.eu.*?:  \{\}/).to_stdout
+    expect{ verify_protocol :http }.to output(/HTTP::Error: .*?http:\/\/.*?:\s+\{\}/).to_stdout
   end
 
   it "allows setting up callbacks for verifying which protocol was successful" do

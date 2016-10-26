@@ -17,6 +17,7 @@ VCR.configure do |config|
 end
 
 RSpec.configure do |config|
+  config.example_status_persistence_file_path = "/tmp/examples.txt"
   config.include ProxyChecker::TestHelper
   config.before(:each) do
     ENV['CURRENT_IP'] = "CURRENT_IP"

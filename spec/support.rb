@@ -8,21 +8,23 @@ module ProxyChecker
     end
 
     def verify_protocol(key)
-      review = nil
-      with_cassette_for(key) do
-        review = ProxyChecker::Reviewer.new(@ip, @port).fetch(key.to_sym)
+      data = with_cassette_for(key) do
+        ProxyChecker.data_for(@ip, @port) do
+          send "check_proxy_for_#{key}"
+        end
       end
-      review[key]
+      data[key]
     end
 
     def reset_configuration
       WebMock.reset!
       ProxyChecker.config = nil
       ProxyChecker.configure do |config|
+        config.adapter   = :azenv
+        config.http_url  = "http://luisaranguren.com/azenv.php"
         # config.log_error = nil
         config.read_timeout = 10
         config.connect_timeout = 5
-        config.keep_failed_attempts = true
       end
     end
   end
