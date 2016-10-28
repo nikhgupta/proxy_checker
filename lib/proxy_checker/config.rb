@@ -3,21 +3,15 @@ module ProxyChecker
     attr_accessor :adapter
     attr_accessor :read_timeout, :connect_timeout
     attr_accessor :ssl_context, :current_ip, :user_agent
-    attr_accessor :http_url, :https_url,  :post_url
-    attr_accessor :info_url, :digest_url, :current_ip_url
     attr_accessor :log_error
-    attr_accessor :websites
+
+    attr_reader :previous_adapter
 
     def initialize
       reset!
     end
 
     def reset!
-      @info_url        = "http://ip-api.com/json/%{ip}"
-      @current_ip_url  = "http://ip-api.com/json"
-      @digest_url      = "https://git.io/vPpCx"
-      @http_url, @https_url, @post_url = nil
-
       @current_ip      = nil
       @read_timeout    = 10
       @connect_timeout = 5
@@ -33,10 +27,14 @@ module ProxyChecker
     end
 
     def adapter=(adapter)
+      @previous_adapter = self.adapter
+
       if adapter.is_a?(Class)
         @adapter = adapter.new if adapter.is_a?(Class)
+        configure_adapter_options!
       elsif ProxyChecker::Adapter.const_defined?(adapter.to_s.camelize)
         @adapter = ProxyChecker::Adapter.const_get(adapter.to_s.camelize).new
+        configure_adapter_options!
       else
         raise NotImplementedError, "Invalid adapter specified!"
       end
@@ -44,6 +42,21 @@ module ProxyChecker
 
     def adapters
       ProxyChecker::Adapter::Base.adapters
+    end
+
+    def configure_adapter_options!
+      previous_adapter.class.options.each do |key, val|
+        instance_variable_set("@#{key}", nil)
+        singleton_class.instance_eval do
+          remove_method key
+          remove_method "#{key}="
+        end
+      end if has_adapter_options?(previous_adapter, previous: true)
+
+      adapter.class.options.each do |key, val|
+        singleton_class.instance_eval { attr_accessor key }
+        instance_variable_set("@#{key}", val)
+      end if has_adapter_options?
     end
 
     def timeout
@@ -59,6 +72,13 @@ module ProxyChecker
         intf.ipv4? and !intf.ipv4_loopback? and !intf.ipv4_multicast? and !intf.ipv4_private?
       end
       ip.ip_address if ip
+    end
+
+    def has_adapter_options?(adapter = nil, options = {})
+      adapter = @adapter if adapter.nil? && !options.fetch(:previous, false)
+      adapter && adapter.class.respond_to?(:options) &&
+        adapter.class.options.respond_to?(:any?) &&
+        adapter.class.options.any?
     end
   end
 end

@@ -42,13 +42,18 @@ describe ProxyChecker::Utility do
       expect(data.body["note"]).to include "heading" => "Reminder"
     end
 
-    it "passes errors to the log_error block specified and returns them back" do
-      ProxyChecker.config.log_error = -> (e) { print e }
-      expect_any_instance_of(HTTP::Client).to receive(:get).and_raise HTTP::Error, "Some Error"
-      data = nil
-      expect{ data = fetch_url :json }.to output("Some Error").to_stdout
-      expect(data.error).to eq HTTP::Error
-      expect(data.message).to eq "Some Error"
+    context "logging errors when fetching URLs" do
+      it "passes errors to the log_error block specified" do
+        ProxyChecker.config.log_error = -> (e) { print e }
+        expect_any_instance_of(HTTP::Client).to receive(:get).and_raise HTTP::Error, "Some Error"
+        expect{ fetch_url :json }.to output("Some Error").to_stdout
+      end
+
+      it "passes errors to the log_error block specified along with extra options if requested" do
+        ProxyChecker.config.log_error = -> (e, uri, options) { print "#{e}\n#{uri}\n#{options.keys.join}" }
+        expect_any_instance_of(HTTP::Client).to receive(:get).and_raise HTTP::Error, "Some Error"
+        expect{ fetch_url :json }.to output("Some Error\n#{json_uri}\nssl_context").to_stdout
+      end
     end
   end
 end

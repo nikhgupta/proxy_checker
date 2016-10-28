@@ -12,6 +12,7 @@ module ProxyChecker
     end
 
     def fetch_url(uri, options = {})
+      @response = nil
       uri    = URI.parse(uri.to_s)
       method = options.delete(:method) || :get
 
@@ -24,11 +25,11 @@ module ProxyChecker
       http = proxy.nil? || proxy.empty? ? agent : agent.via(*proxy.values)
 
       time       = Time.now
-      response   = http.send method, uri.to_s, options
+      @response  = http.send method, uri.to_s, options
       time_taken = Time.now - time
-      success    = yield(response) if block_given?
-
-      sanitize_response(response, time_taken, success)
+      @response  = sanitized_response
+      @response.time_taken = time_taken
+      block_given? ? yield(@response) : @response
     rescue HTTP::Error, OpenSSL::SSL::SSLError => e
       if config.log_error.respond_to?(:call) && config.log_error.arity == 1
         config.log_error.call(e)
@@ -37,27 +38,6 @@ module ProxyChecker
       else
         raise
       end
-    end
-
-    def sanitize_response(response, time_taken, success)
-      parsed = block_given? ? yield(response) : (response.parse rescue response.to_s)
-      cookies = Hash[response.cookies.map{|v| v.to_s.split("=")}]
-      streaming = response.headers["Transfer-Encoding"] == "chunked"
-
-      OpenStruct.new(
-        uri:            response.uri,
-        code:           response.code,
-        message:        response.reason,
-        parsed:         parsed,
-        body:           response.to_s,
-        charset:        response.charset,
-        cookies:        cookies,
-        content_type:   response.mime_type,
-        content_length: response.content_length,
-        headers:        response.headers.to_h,
-        proxy_headers:  response.proxy_headers.to_h,
-        streaming:      streaming
-      )
     end
   end
 end

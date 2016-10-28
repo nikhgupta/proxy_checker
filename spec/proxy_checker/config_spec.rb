@@ -1,21 +1,20 @@
 describe ProxyChecker::Config do
 
-  def set_config(key, val)
-    ProxyChecker.configure{ |config| config.send "#{key}=", val }
-  end
-
-  def reset_config(defaults = {})
-    ProxyChecker.config = nil
-    ProxyChecker.configure do |config|
-      defaults.each{ |key, val| config.send "#{key}=", val }
-    end
-  end
-
   let(:port) { "12345" }
   let(:ip){ "123.123.123.123" }
 
   subject do
     VCR.use_cassette("config"){ ProxyChecker.config }
+  end
+
+  it "allows resetting to default config values" do
+    expect(subject.read_timeout).to eq 10
+
+    set_config :read_timeout, 1
+    expect(subject.read_timeout).to eq 1
+
+    subject.reset!
+    expect(subject.read_timeout).to eq 10
   end
 
   context "with adapters" do
@@ -40,6 +39,17 @@ describe ProxyChecker::Config do
       expect { subject.adapter = dummy_adapter }.not_to raise_error
       expect(subject.adapter).to be_a dummy_adapter
       expect(subject.adapter.ping).to eq :pong
+      expect { subject.adapter.name }.to raise_error NoMethodError
+    end
+
+    it "allows setting up a custom adapter based off base adapter" do
+      dummy_adapter = Class.new(ProxyChecker::Adapter::Base) do
+        def ping; :pong; end
+      end
+      subject.adapter = dummy_adapter
+      expect(subject.adapter).to be_a dummy_adapter
+      expect(subject.adapter.ping).to eq :pong
+      expect(subject.adapter.name).to eq "custom"
     end
 
     it "has a list of all adapters derived from base adapter" do
@@ -50,47 +60,111 @@ describe ProxyChecker::Config do
     end
   end
 
-  context ""
-
-  it "has a default URL for fetching information about Proxy IP" do
-    expect(subject.info_url).to eq "http://ip-api.com/json/%{ip}"
-  end
-
-  it "has default URL for obtaining current IP" do
-    expect(subject.current_ip_url).to eq "http://ip-api.com/json"
-  end
-
-  it "allows setting up URL for fetching information about the proxy IP" do
-    set_config :info_url, "http://domain.com/%{ip}/%{port}"
-    expect(subject.info_url).to eq "http://domain.com/%{ip}/%{port}"
-
-    url = subject.info_url % {ip: ip, port: port}
-    expect(url).to eq "http://domain.com/123.123.123.123/12345"
-  end
-
-  it "allows setting up URL to be used for obtaining current IP" do
-    set_config :current_ip_url, "http://domain.com/current_ip"
-    expect(subject.current_ip_url).to eq "http://domain.com/current_ip"
-  end
-
-  it "defaults to Env Variable or an External URL for obtaining current IP address" do
-    expect(subject.current_ip).to eq "CURRENT_IP"
-    allow(ENV).to receive(:[]).and_return nil
-
-    expect_any_instance_of(HTTP::Client).to receive(:request).with(
-      :get, subject.current_ip_url, {}
-    ).once.and_call_original
-
-    reset_config
-    VCR.use_cassette("config-current-ip") do
-      expect(ProxyChecker.config.current_ip).not_to be_nil
+  context "default values" do
+    it "has default timeouts set for HTTP connections" do
+      expect(subject.timeout).to include read_timeout: 10, connect_timeout: 5
     end
   end
 
-  it "allows setting up the current IP address for the server" do
-    set_config :current_ip, "123.123.123.123"
-    expect(subject.current_ip).to eq "123.123.123.123"
+  context "custom values" do
+    it "allows setting up timeouts for the HTTP connections" do
+      set_config :read_timeout, 1
+      expect(subject.timeout).to include read_timeout: 1
+
+      set_config :connect_timeout, 2
+      expect(subject.timeout).to include connect_timeout: 2
+    end
+
+    it "allows setting up callback when errors occur when making HTTP/S connections" do
+      set_config :log_error, -> (e){ puts e }
+      allow_any_instance_of(HTTP::Client).to receive(:request).and_raise HTTP::Error, "Some Error Occurred"
+      expect{ verify_protocol :http }.to output(/Some Error Occurred/).to_stdout
+    end
+
+    it "passes error, url, options and response object to the log_error callback if needed" do
+      set_config :log_error, -> (e, uri, options) { puts "#{e.class}: #{uri}: #{options}" }
+      allow_any_instance_of(HTTP::Client).to receive(:request).and_raise HTTP::Error, "Some Error Occurred"
+      expect{ verify_protocol :http }.to output(/HTTP::Error: .*?http:\/\/.*?:\s+\{\}/).to_stdout
+    end
   end
+
+  context "adapter options" do
+    it "has default values for adapter config options" do
+      expect(subject.adapter.name).to eq "azenv"
+      expect(subject.http_url).to include "azenv.php"
+    end
+
+    it "can set custom values for adapter config options" do
+      set_config :http_url, "http://domain.com"
+      expect(subject.http_url).to eq "http://domain.com"
+    end
+
+    it "does not allow setting up arbitrary config options for itself or adapter" do
+      expect{ set_config :whatever, :is_false }.to raise_error NoMethodError
+      expect{ subject.whatever }.to raise_error NoMethodError
+    end
+
+    it "does not allow setting up another adapter's config options when it is not in use" do
+      dummy_adapter  = Class.new(ProxyChecker::Adapter::Base){ config_option :ping,  :pong  }
+      dummy_adapter2 = Class.new(ProxyChecker::Adapter::Base){ config_option :ping2, :pong2 }
+      set_config :adapter, dummy_adapter
+      expect(subject.ping).to eq :pong
+      expect{ subject.ping2 }.to raise_error NoMethodError
+      expect{ set_config :ping2, :false }.to raise_error NoMethodError
+
+      set_config :adapter, dummy_adapter2
+      expect(subject.ping2).to eq :pong2
+      expect{ subject.ping }.to raise_error NoMethodError
+      expect{ set_config :ping, :false }.to raise_error NoMethodError
+
+      set_config :adapter, dummy_adapter
+      expect(subject.ping).to eq :pong
+      expect{ set_config :ping2, :false }.to raise_error NoMethodError
+    end
+
+    it "overwrites earlier set config option when adapter is changed" do
+      dummy_adapter  = Class.new(ProxyChecker::Adapter::Base){ config_option :ping, :pong  }
+      dummy_adapter2 = Class.new(ProxyChecker::Adapter::Base){ config_option :ping, :pong2 }
+
+      set_config :adapter, dummy_adapter
+      expect(subject.ping).to eq :pong
+
+      set_config :adapter, dummy_adapter2
+      expect(subject.ping).to eq :pong2
+    end
+  end
+
+  context "server current IP" do
+    it "allows setting up the current IP address for the server" do
+      set_config :current_ip, "123.123.123.123"
+      expect(subject.current_ip).to eq "123.123.123.123"
+    end
+    it "reads current ip address for the server from env. variable" do
+      allow(ENV).to receive(:[]).with("CURRENT_IP").and_return "8.8.8.8"
+      expect(subject.current_ip).to eq "8.8.8.8"
+    end
+
+    it "reads current ip address for the server from local socket connections" do
+      allow(ENV).to receive(:[]).and_return nil
+      ips = Socket.ip_address_list << Addrinfo.tcp("1.1.1.1", 80)
+      allow(Socket).to receive(:ip_address_list).and_return ips
+      expect(subject.current_ip).to eq "1.1.1.1"
+    end
+  end
+
+  # it "does whatever" do
+  #   # expect(subject.current_ip).to eq "CURRENT_IP"
+  #   # allow(ENV).to receive(:[]).and_return nil
+
+  #   # expect_any_instance_of(HTTP::Client).to receive(:request).with(
+  #   #   :get, subject.adapter.current_ip_url, {}
+  #   # ).once.and_call_original
+
+  #   # reset_config
+  #   # VCR.use_cassette("config-current-ip") do
+  #   #   expect(ProxyChecker.config.current_ip).not_to be_nil
+  #   # end
+  # end
 
   # it "allows parsing of response received from external service when querying current IP" do
   #   VCR.use_cassette("config-current-ip-parse") do
@@ -103,29 +177,6 @@ describe ProxyChecker::Config do
   #   end
   # end
 
-  it "has default timeouts set for HTTP connections" do
-    expect(subject.timeout).to include read_timeout: 10, connect_timeout: 5
-  end
-
-  it "allows setting up timeouts for the HTTP connections" do
-    set_config :read_timeout, 1
-    expect(subject.timeout).to include read_timeout: 1
-
-    set_config :connect_timeout, 2
-    expect(subject.timeout).to include connect_timeout: 2
-  end
-
-  it "allows setting up callback when errors occur when making HTTP/S connections" do
-    set_config :log_error, -> (e){ puts e }
-    allow_any_instance_of(HTTP::Client).to receive(:request).and_raise HTTP::Error, "Some Error Occurred"
-    expect{ verify_protocol :http }.to output(/Some Error Occurred/).to_stdout
-  end
-
-  it "passes error, url, options and response object to the log_error callback if needed" do
-    set_config :log_error, -> (e, uri, options) { puts "#{e.class}: #{uri}: #{options}" }
-    allow_any_instance_of(HTTP::Client).to receive(:request).and_raise HTTP::Error, "Some Error Occurred"
-    expect{ verify_protocol :http }.to output(/HTTP::Error: .*?http:\/\/.*?:\s+\{\}/).to_stdout
-  end
 
   it "allows setting up callbacks for verifying which protocol was successful" do
     set_config :validate_http,  -> (res, url) { res.code == 500 }

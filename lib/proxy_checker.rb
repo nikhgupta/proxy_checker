@@ -25,12 +25,10 @@ module ProxyChecker
   end
 
   def self.new(ip, port, &block)
-    adapter = ProxyChecker.config.adapter.new(ip, port)
-    adapter.instance_eval(&block)
-    adapter
+    ProxyChecker::DSL.new(ip, port, &block)
   end
 
   def self.data_for(ip, port, &block)
-    self.new(ip, port, &block).data
+    self.new(ip, port, &block).fetch
   end
 end

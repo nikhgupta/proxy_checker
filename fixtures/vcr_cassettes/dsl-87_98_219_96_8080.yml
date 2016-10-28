@@ -1,0 +1,40 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://ip-api.com/json/87.98.219.96
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML,
+        like Gecko) Chrome/53.0.2785.143 Safari/537.36
+      Content-Type:
+      - text/plain
+      Connection:
+      - close
+      Host:
+      - ip-api.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Access-Control-Allow-Origin:
+      - "*"
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 28 Oct 2016 03:52:38 GMT
+      Content-Length:
+      - '259'
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{"as":"AS16276 OVH","city":"Roubaix","country":"France","countryCode":"FR","isp":"OVH
+        SAS","lat":50.6929,"lon":3.19783,"org":"OVH SAS","query":"87.98.219.96","region":"O","regionName":"Nord-Pas-de-Calais","status":"success","timezone":"Europe/Paris","zip":""}'
+    http_version: 
+  recorded_at: Fri, 28 Oct 2016 03:52:38 GMT
+recorded_with: VCR 3.0.3

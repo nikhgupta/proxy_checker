@@ -16,13 +16,26 @@ module ProxyChecker
       data[key]
     end
 
+    def config
+      ProxyChecker.config
+    end
+
+    def set_config(key, val)
+      ProxyChecker.configure{ |config| config.send "#{key}=", val }
+    end
+
+    def reset_config(defaults = {})
+      ProxyChecker.config = nil
+      ProxyChecker.configure do |config|
+        defaults.each{ |key, val| config.send "#{key}=", val }
+      end
+    end
+
     def reset_configuration
       WebMock.reset!
       ProxyChecker.config = nil
       ProxyChecker.configure do |config|
         config.adapter   = :azenv
-        config.http_url  = "http://luisaranguren.com/azenv.php"
-        # config.log_error = nil
         config.read_timeout = 10
         config.connect_timeout = 5
       end
