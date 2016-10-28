@@ -20,7 +20,9 @@ module ProxyChecker
     end
 
     def configure(&block)
-      block.arity == 1 ? yield(config) : yield if block_given?
+      return unless block_given?
+      yield config if block.arity == 1
+      ProxyChecker.config.instance_eval(&block)
     end
   end
 

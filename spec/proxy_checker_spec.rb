@@ -10,6 +10,14 @@ describe ProxyChecker do
     expect(ProxyChecker.config.read_timeout).to eq 10
   end
 
+  it "allows configuring configuration values through a block" do
+    ProxyChecker.configure{ |config| config.read_timeout = 30 }
+    expect(ProxyChecker.config.read_timeout).to eq 30
+
+    ProxyChecker.configure{ self.read_timeout = 40 }
+    expect(ProxyChecker.config.read_timeout).to eq 40
+  end
+
   describe ".new" do
     it "provides a convenient method to instantiate the DSL" do
       checker  = ProxyChecker.new("123.123.123.123", "12345"){ fetch_information }
