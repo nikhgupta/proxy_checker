@@ -12,7 +12,6 @@ module ProxyChecker
     end
 
     def fetch_url(uri, options = {})
-      @response = nil
       uri    = URI.parse(uri.to_s)
       method = options.delete(:method) || :get
 
@@ -22,12 +21,13 @@ module ProxyChecker
       end
 
       proxy = options.delete(:proxy) || {}
-      http = proxy.nil? || proxy.empty? ? agent : agent.via(*proxy.values)
+      proxy[:port] = proxy[:port].to_i if proxy[:port]
+      http = proxy.empty? ? agent : agent.via(*proxy.values)
 
       time       = Time.now
       @response  = http.send method, uri.to_s, options
       time_taken = Time.now - time
-      @response  = sanitized_response
+      @response  = sanitized_response || OpenStruct.new
       @response.time_taken = time_taken
 
       block_given? ? yield(@response) : @response
@@ -39,6 +39,43 @@ module ProxyChecker
       else
         raise
       end
+    end
+
+    def sanitized_response
+      return OpenStruct.new(response: @response) unless @response.respond_to?(:uri)
+      config.adapter.response = @response
+      OpenStruct.new(
+        uri:            @response.uri,
+        code:           @response.code,
+        message:        @response.reason,
+        parsed:         parse_response,
+        body:           @response.to_s,
+        charset:        @response.charset,
+        cookies:        parse_cookies,
+        content_type:   @response.mime_type,
+        content_length: @response.content_length,
+        headers:        @response.headers.to_h,
+        proxy_headers:  @response.proxy_headers.to_h,
+        streaming:      streaming?
+      )
+    end
+
+    def parse_response
+      config.adapter.parse_response
+    rescue NoMethodError
+      @response.parse rescue @response.to_s
+    end
+
+    def parse_cookies
+      config.adapter.parse_cookies
+    rescue NoMethodError
+      Hash[@response.cookies.map{|v| v.to_s.split("=")}] rescue {}
+    end
+
+    def streaming?
+      config.adapter.streaming?
+    rescue NoMethodError
+      @response.headers["Transfer-Encoding"] == "chunked" rescue false
     end
   end
 end

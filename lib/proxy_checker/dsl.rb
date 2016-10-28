@@ -41,26 +41,6 @@ module ProxyChecker
       self.data
     end
 
-    def sanitized_response(options = {})
-      config.adapter.response = @response
-      parsed = config.adapter.parse_response || config.adapter.response.parse
-
-      OpenStruct.new(
-        uri:            @response.uri,
-        code:           @response.code,
-        message:        @response.reason,
-        parsed:         parsed,
-        body:           @response.to_s,
-        charset:        @response.charset,
-        cookies:        config.adapter.parse_cookies,
-        content_type:   @response.mime_type,
-        content_length: @response.content_length,
-        headers:        @response.headers.to_h,
-        proxy_headers:  @response.proxy_headers.to_h,
-        streaming:      config.adapter.streaming?
-      )
-    end
-
     def fetch_information(*fields)
       fields |= [ :basic_info ]
       extract_information :info, fields

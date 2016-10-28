@@ -35,7 +35,7 @@ module ProxyChecker
       WebMock.reset!
       ProxyChecker.config = nil
       ProxyChecker.configure do |config|
-        config.adapter   = :azenv
+        config.adapter = Class.new(ProxyChecker::Adapter::Base)
         config.read_timeout = 10
         config.connect_timeout = 5
       end

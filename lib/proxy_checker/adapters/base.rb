@@ -2,9 +2,6 @@ module ProxyChecker
   module Adapter
     class Base
 
-      # include ProxyChecker::DSL
-      include ProxyChecker::Utility
-
       class << self
         attr_accessor :options, :adapters
 
@@ -27,19 +24,6 @@ module ProxyChecker
 
       def name
         self.class.name.demodulize.underscore rescue "custom"
-      end
-
-      def parse_response
-        return yield(@response) if block_given?
-        @response.parse rescue @response.to_s
-      end
-
-      def parse_cookies
-        Hash[@response.cookies.map{|v| v.to_s.split("=")}]
-      end
-
-      def streaming?
-        @response.headers["Transfer-Encoding"] == "chunked"
       end
 
       private
