@@ -41,13 +41,15 @@ module ProxyChecker
       self.data
     end
 
-    def sanitized_response
+    def sanitized_response(options = {})
       config.adapter.response = @response
+      parsed = config.adapter.parse_response || config.adapter.response.parse
+
       OpenStruct.new(
         uri:            @response.uri,
         code:           @response.code,
         message:        @response.reason,
-        parsed:         config.adapter.parse_response,
+        parsed:         parsed,
         body:           @response.to_s,
         charset:        @response.charset,
         cookies:        config.adapter.parse_cookies,
@@ -153,15 +155,15 @@ module ProxyChecker
     private
 
     def fetch_external_ip(options = {})
-      response = fetch_url config.current_ip_url, options
-      response.parsed["query"]
+      response = fetch_url config.current_ip_url, options do |response|
+        JSON.parse response.body
+      end
+      response["query"]
     end
 
     def fetch_ip_information(ip, port = 80, options = {})
       url = config.info_url % { ip: ip, port: port }
-      response = fetch_url url, options
-      binding.pry
-      response.parsed
+      fetch_url(url, options){ |response| JSON.parse response.body }
     end
 
     def extract_information(key, fields = [])

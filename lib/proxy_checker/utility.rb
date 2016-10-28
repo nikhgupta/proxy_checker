@@ -29,6 +29,7 @@ module ProxyChecker
       time_taken = Time.now - time
       @response  = sanitized_response
       @response.time_taken = time_taken
+
       block_given? ? yield(@response) : @response
     rescue HTTP::Error, OpenSSL::SSL::SSLError => e
       if config.log_error.respond_to?(:call) && config.log_error.arity == 1
